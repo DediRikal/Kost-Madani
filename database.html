@@ -95,7 +95,7 @@
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Database Transaksi & Status Kamar</h1>
-                    <p class="text-slate-600 text-sm mt-1">Kelola status kelunasan penghuni untuk memperbarui status kamar di Beranda.</p>
+                    <p class="text-slate-600 text-sm mt-1">Kelola status kelunasan penghuni dan ketersediaan kamar di Beranda.</p>
                 </div>
                 <div class="flex items-center gap-3">
                     <button onclick="kembaliKePilihCabang()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm transition">
@@ -108,38 +108,61 @@
             </div>
 
             <!-- Tab Switcher Cabang Fast Navigation -->
-            <div class="flex gap-2 border-b border-slate-200 pb-2">
-                <button onclick="bukaDatabaseCabang('Madani 1')" id="tab-m1" class="px-4 py-2 font-bold text-sm rounded-lg transition">Madani 1</button>
-                <button onclick="bukaDatabaseCabang('Madani 2')" id="tab-m2" class="px-4 py-2 font-bold text-sm rounded-lg transition">Madani 2</button>
-                <button onclick="bukaDatabaseCabang('Madani Putri')" id="tab-mp" class="px-4 py-2 font-bold text-sm rounded-lg transition">Madani Putri</button>
+            <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-2">
+                <div class="flex gap-2">
+                    <button onclick="bukaDatabaseCabang('Madani 1')" id="tab-m1" class="px-4 py-2 font-bold text-sm rounded-lg transition">Madani 1</button>
+                    <button onclick="bukaDatabaseCabang('Madani 2')" id="tab-m2" class="px-4 py-2 font-bold text-sm rounded-lg transition">Madani 2</button>
+                    <button onclick="bukaDatabaseCabang('Madani Putri')" id="tab-mp" class="px-4 py-2 font-bold text-sm rounded-lg transition">Madani Putri</button>
+                </div>
+                
+                <!-- Sub Menu Toggle View (Transaksi vs Ketersediaan Kamar) -->
+                <div class="flex bg-slate-200/70 p-1 rounded-xl">
+                    <button onclick="switchSubMenu('transaksi')" id="btn-sub-transaksi" class="px-4 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition">Data Transaksi</button>
+                    <button onclick="switchSubMenu('kamar')" id="btn-sub-kamar" class="px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition">Edit Ketersediaan Kamar</button>
+                </div>
             </div>
 
-            <!-- Table Container -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 text-xs font-extrabold uppercase tracking-wider">
-                                <th class="py-4 px-6">Tanggal</th>
-                                <th class="py-4 px-6">Cabang</th>
-                                <th class="py-4 px-6">Nama Penghuni</th>
-                                <th class="py-4 px-6">Kamar</th>
-                                <th class="py-4 px-6">Periode</th>
-                                <th class="py-4 px-6">Bukti Transfer</th>
-                                <th class="py-4 px-6">Status</th>
-                                <th class="py-4 px-6 text-center">Aksi Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabel-transaksi-body" class="divide-y divide-slate-100 text-sm">
-                            <!-- Data Transaksi dimasukkan via JS -->
-                        </tbody>
-                    </table>
-                </div>
-                <div id="empty-state" class="hidden p-8 text-center text-slate-500">
-                    <i class="fa-solid fa-folder-open text-4xl mb-2 text-slate-300"></i>
-                    <p>Belum ada data transaksi untuk cabang ini.</p>
+            <!-- KONTEN 1: TABEL TRANSAKSI -->
+            <div id="wrapper-tabel-transaksi" class="space-y-4">
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 text-xs font-extrabold uppercase tracking-wider">
+                                    <th class="py-4 px-6">Tanggal</th>
+                                    <th class="py-4 px-6">Cabang</th>
+                                    <th class="py-4 px-6">Nama Penghuni</th>
+                                    <th class="py-4 px-6">Kamar</th>
+                                    <th class="py-4 px-6">Periode</th>
+                                    <th class="py-4 px-6">Bukti Transfer</th>
+                                    <th class="py-4 px-6">Status</th>
+                                    <th class="py-4 px-6 text-center">Aksi Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabel-transaksi-body" class="divide-y divide-slate-100 text-sm">
+                                <!-- Data Transaksi dimasukkan via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="empty-state" class="hidden p-8 text-center text-slate-500">
+                        <i class="fa-solid fa-folder-open text-4xl mb-2 text-slate-300"></i>
+                        <p>Belum ada data transaksi untuk cabang ini.</p>
+                    </div>
                 </div>
             </div>
+
+            <!-- KONTEN 2: EDIT KETERSEDIAAN KAMAR -->
+            <div id="wrapper-edit-kamar" class="hidden space-y-4">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <h3 class="text-lg font-bold text-slate-900 mb-1">Pengaturan Ketersediaan Kamar</h3>
+                    <p class="text-xs text-slate-500 mb-6">Ubah status ketersediaan kamar di bawah ini agar langsung terbarui pada halaman Beranda pengunjung.</p>
+                    
+                    <div id="grid-kamar-ketersediaan" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        <!-- Daftar kamar digenerate via JavaScript -->
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </main>
@@ -183,6 +206,7 @@
     <script>
         const PASSWORD_ADMIN = "admin123"; // Ganti password di sini jika perlu
         let cabangDipilih = 'Madani 1';
+        let subMenuAktif = 'transaksi';
 
         // 1. Fungsi Cek Login
         function verifikasiPassword(e) {
@@ -242,7 +266,7 @@
                 }
             });
 
-            renderTabelTransaksi();
+            refreshAktifView();
         }
 
         function kembaliKePilihCabang() {
@@ -257,7 +281,38 @@
             tampilkanTampilan();
         }
 
-        // 4. Render Data Transaksi & Tombol Status + Tombol Hapus + Tombol Lihat Bukti
+        // Switch Sub Menu (Transaksi vs Edit Kamar)
+        function switchSubMenu(menu) {
+            subMenuAktif = menu;
+            const btnTransaksi = document.getElementById('btn-sub-transaksi');
+            const btnKamar = document.getElementById('btn-sub-kamar');
+            const wrapTransaksi = document.getElementById('wrapper-tabel-transaksi');
+            const wrapKamar = document.getElementById('wrapper-edit-kamar');
+
+            if (menu === 'transaksi') {
+                btnTransaksi.className = "px-4 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition";
+                btnKamar.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition";
+                wrapTransaksi.classList.remove('hidden');
+                wrapKamar.classList.add('hidden');
+                renderTabelTransaksi();
+            } else {
+                btnKamar.className = "px-4 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition";
+                btnTransaksi.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition";
+                wrapKamar.classList.remove('hidden');
+                wrapTransaksi.classList.add('hidden');
+                renderGridKetersediaanKamar();
+            }
+        }
+
+        function refreshAktifView() {
+            if (subMenuAktif === 'transaksi') {
+                renderTabelTransaksi();
+            } else {
+                renderGridKetersediaanKamar();
+            }
+        }
+
+        // 4. Render Data Transaksi
         function renderTabelTransaksi() {
             const transaksiList = JSON.parse(localStorage.getItem('transaksi_kost')) || [];
             const statusKamarMap = JSON.parse(localStorage.getItem('status_kamar_kost')) || {};
@@ -266,7 +321,6 @@
             
             tbody.innerHTML = '';
 
-            // Filter transaksi berdasarkan cabang yang dipilih
             const filteredData = transaksiList.filter(item => item.cabang === cabangDipilih);
 
             if (filteredData.length === 0) {
@@ -277,7 +331,6 @@
             }
 
             filteredData.forEach((item, index) => {
-                // Key unik kamar
                 const keyKamar = `${item.cabang}-${item.kamar.includes('Kamar') ? item.kamar : 'Kamar ' + item.kamar}`;
                 const isLunas = statusKamarMap[keyKamar] === 'Lunas' || item.status === 'Lunas';
                 const itemId = item.id || index;
@@ -285,7 +338,6 @@
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50/80 transition";
 
-                // Komponen Bukti Pembayaran
                 let buktiHtml = `<span class="text-xs text-slate-400 italic">Tidak ada</span>`;
                 if (item.bukti) {
                     buktiHtml = `
@@ -316,7 +368,7 @@
                             ${
                                 isLunas ? `
                                     <button onclick="ubahStatus('${keyKamar}', 'Belum Lunas', '${itemId}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-200 text-slate-700 hover:bg-slate-300 transition flex items-center gap-1">
-                                        <i class="fa-solid fa-rotate-left"></i> Tandai Belum Lunas
+                                        <i class="fa-solid fa-rotate-left"></i> Belum Lunas
                                     </button>
                                 ` : `
                                     <button onclick="ubahStatus('${keyKamar}', 'Lunas', '${itemId}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition flex items-center gap-1">
@@ -324,7 +376,6 @@
                                     </button>
                                 `
                             }
-                            <!-- Tombol Hapus Transaksi -->
                             <button onclick="hapusTransaksi('${itemId}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-rose-600 text-white hover:bg-rose-700 shadow-sm transition flex items-center gap-1" title="Hapus Data">
                                 <i class="fa-solid fa-trash-can"></i> Hapus
                             </button>
@@ -335,7 +386,64 @@
             });
         }
 
-        // 5. Ubah Status Kelunasan
+        // 5. Render Grid Edit Ketersediaan Kamar
+        function renderGridKetersediaanKamar() {
+            const container = document.getElementById('grid-kamar-ketersediaan');
+            container.innerHTML = '';
+
+            // Tentukan jumlah kamar masing-masing cabang
+            let jumlahKamar = 9;
+            if (cabangDipilih === 'Madani 2') jumlahKamar = 10;
+            if (cabangDipilih === 'Madani Putri') jumlahKamar = 16;
+
+            // Ambil data ketersediaan kamar dari localStorage (tersinkronisasi dengan index.html)
+            let ketersediaanMap = JSON.parse(localStorage.getItem('ketersediaan_kamar_kost')) || {};
+
+            for (let i = 1; i <= jumlahKamar; i++) {
+                const nomorKamarStr = `Kamar ${i}`;
+                const keyKamarCabang = `${cabangDipilih}-${nomorKamarStr}`;
+                
+                // Status default: Tersedia jika belum terset
+                const statusKamar = ketersediaanMap[keyKamarCabang] !== undefined ? ketersediaanMap[keyKamarCabang] : 'Tersedia';
+                const isTersedia = statusKamar === 'Tersedia';
+
+                const card = document.createElement('div');
+                card.className = "p-4 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-between gap-3 shadow-xs";
+                
+                card.innerHTML = `
+                    <div>
+                        <h4 class="font-bold text-slate-900">${nomorKamarStr}</h4>
+                        <span class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold ${
+                            isTersedia 
+                                ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' 
+                                : 'bg-rose-100 text-rose-700 border border-rose-200'
+                        }">
+                            ${statusKamar}
+                        </span>
+                    </div>
+                    <div>
+                        <select onchange="ubahKetersediaanKamar('${cabangDipilih}', '${nomorKamarStr}', this.value)" class="text-xs font-semibold py-2 px-3 rounded-lg border border-slate-300 bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
+                            <option value="Tersedia" ${isTersedia ? 'selected' : ''}>Tersedia</option>
+                            <option value="Tidak Tersedia" ${!isTersedia ? 'selected' : ''}>Tidak Tersedia</option>
+                        </select>
+                    </div>
+                `;
+                container.appendChild(card);
+            }
+        }
+
+        // 6. Fungsi Ubah Ketersediaan Kamar (Simpan ke LocalStorage untuk index.html)
+        function ubahKetersediaanKamar(cabang, kamar, statusBaru) {
+            let ketersediaanMap = JSON.parse(localStorage.getItem('ketersediaan_kamar_kost')) || {};
+            const keyKamarCabang = `${cabang}-${kamar}`;
+            ketersediaanMap[keyKamarCabang] = statusBaru;
+            localStorage.setItem('ketersediaan_kamar_kost', JSON.stringify(ketersediaanMap));
+            
+            // Re-render grid untuk memperbarui tampilan label warna status secara instan
+            renderGridKetersediaanKamar();
+        }
+
+        // 7. Ubah Status Kelunasan
         function ubahStatus(keyKamar, statusBaru, idTransaksi) {
             let statusKamarMap = JSON.parse(localStorage.getItem('status_kamar_kost')) || {};
             statusKamarMap[keyKamar] = statusBaru;
@@ -353,20 +461,17 @@
             renderTabelTransaksi();
         }
 
-        // 6. Hapus Data Transaksi
+        // 8. Hapus Data Transaksi
         function hapusTransaksi(idTransaksi) {
             if (confirm("Apakah Anda yakin ingin menghapus data transaksi ini?")) {
                 let transaksiList = JSON.parse(localStorage.getItem('transaksi_kost')) || [];
-                
-                // Filter hapus berdasarkan ID atau Index
                 transaksiList = transaksiList.filter((item, idx) => (item.id ? item.id !== idTransaksi : idx != idTransaksi));
-                
                 localStorage.setItem('transaksi_kost', JSON.stringify(transaksiList));
                 renderTabelTransaksi();
             }
         }
 
-        // 7. Fungsi Modal Preview Bukti Pembayaran
+        // 9. Fungsi Modal Preview Bukti Pembayaran
         function bukaModalBukti(idTransaksi) {
             const transaksiList = JSON.parse(localStorage.getItem('transaksi_kost')) || [];
             const item = transaksiList.find((t, idx) => (t.id ? t.id === idTransaksi : idx == idTransaksi));
