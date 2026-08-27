@@ -28,21 +28,21 @@
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full space-y-12">
         
         <section class="text-center max-w-2xl mx-auto">
-            <h1 class="text-3xl font-extrabold text-slate-900 sm:text-4xl">Cek Status & Ketersediaan Kamar</h1>
-            <p class="mt-3 text-slate-600 text-sm sm:text-base">Pilih cabang untuk melihat status ketersediaan dan kelunasan pembayaran kamar secara real-time.</p>
+            <h1 class="text-3xl font-extrabold text-slate-900 sm:text-4xl">Cek Ketersediaan Kamar</h1>
+            <p class="mt-3 text-slate-600 text-sm sm:text-base">Pilih cabang untuk melihat ketersediaan kamar secara real-time.</p>
         </section>
 
         <!-- Filter Cabang -->
         <div class="flex justify-center gap-3 flex-wrap">
-            <button onclick="tampilkanKamar('Madani 1', 9)" id="btn-m1" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-blue-600 text-white shadow-md">Madani 1 (9 Kamar)</button>
-            <button onclick="tampilkanKamar('Madani 2', 10)" id="btn-m2" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-white text-slate-600 border border-slate-200 hover:bg-slate-100">Madani 2 (10 Kamar)</button>
-            <button onclick="tampilkanKamar('Madani Putri', 16)" id="btn-mp" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-white text-slate-600 border border-slate-200 hover:bg-slate-100">Madani Putri (16 Kamar)</button>
+            <button onclick="pilihCabang('Madani 1', 9)" id="btn-m1" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-blue-600 text-white shadow-md">Madani 1 (9 Kamar)</button>
+            <button onclick="pilihCabang('Madani 2', 10)" id="btn-m2" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-white text-slate-600 border border-slate-200 hover:bg-slate-100">Madani 2 (10 Kamar)</button>
+            <button onclick="pilihCabang('Madani Putri', 16)" id="btn-mp" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-white text-slate-600 border border-slate-200 hover:bg-slate-100">Madani Putri (16 Kamar)</button>
         </div>
 
         <!-- Legend Status -->
         <div class="flex justify-center gap-6 text-xs font-semibold text-slate-600">
             <div class="flex items-center gap-2">
-                <span class="w-3.5 h-3.5 rounded-full bg-emerald-500 inline-block"></span> Kosong / Belum Lunas
+                <span class="w-3.5 h-3.5 rounded-full bg-emerald-500 inline-block"></span> Tersedia
             </div>
             <div class="flex items-center gap-2">
                 <span class="w-3.5 h-3.5 rounded-full bg-rose-500 inline-block"></span> Terisi / Lunas
@@ -51,52 +51,63 @@
 
         <!-- Grid Kamar -->
         <div id="grid-kamar" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-w-5xl mx-auto">
-            <!-- Render via JS -->
+            <!-- Disusun secara otomatis dengan status real-time dari Database -->
         </div>
     </main>
+
+    <footer class="bg-white border-t border-slate-200 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-500 text-sm">
+            <p>© 2026 Kost Madani. Sistem Informasi Pembayaran Kost.</p>
+        </div>
+    </footer>
 
     <script>
         let cabangAktif = 'Madani 1';
         let totalKamarAktif = 9;
 
-        function tampilkanKamar(cabang, totalKamar) {
+        function pilihCabang(cabang, totalKamar) {
             cabangAktif = cabang;
             totalKamarAktif = totalKamar;
             
-            // Update Tampilan Tombol Tab
+            // Perbarui Gaya Tombol Filter
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.className = "tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-white text-slate-600 border border-slate-200 hover:bg-slate-100";
+                btn.className = "tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition";
             });
-            if(cabang === 'Madani 1') document.getElementById('btn-m1').className = "tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-blue-600 text-white shadow-md";
-            if(cabang === 'Madani 2') document.getElementById('btn-m2').className = "tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-indigo-600 text-white shadow-md";
-            if(cabang === 'Madani Putri') document.getElementById('btn-mp').className = "tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-pink-600 text-white shadow-md";
 
+            if(cabang === 'Madani 1') document.getElementById('btn-m1').className = "tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-blue-600 text-white shadow-md transition";
+            if(cabang === 'Madani 2') document.getElementById('btn-m2').className = "tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-indigo-600 text-white shadow-md transition";
+            if(cabang === 'Madani Putri') document.getElementById('btn-mp').className = "tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-pink-600 text-white shadow-md transition";
+
+            renderKamar();
+        }
+
+        function renderKamar() {
             const statusKamarMap = JSON.parse(localStorage.getItem('status_kamar_kost')) || {};
             const container = document.getElementById('grid-kamar');
             container.innerHTML = '';
 
-            for (let i = 1; i <= totalKamar; i++) {
-                const nomerkamar = `Kamar ${i < 10 ? '0' + i : i}`;
-                const keyKamar = `${cabang}-${nomerkamar}`;
+            for (let i = 1; i <= totalKamarAktif; i++) {
+                const nomorKamar = `Kamar ${i < 10 ? '0' + i : i}`;
+                const keyKamar = `${cabangAktif}-${nomorKamar}`;
                 const isLunas = statusKamarMap[keyKamar] === 'Lunas';
 
                 const card = document.createElement('div');
-                card.className = `p-4 rounded-xl border flex flex-col justify-between h-28 transition shadow-sm ${
+                card.className = `p-4 rounded-2xl border transition shadow-sm flex flex-col justify-between h-32 ${
                     isLunas 
-                        ? 'bg-rose-50 border-rose-200 text-rose-900' 
-                        : 'bg-emerald-50 border-emerald-200 text-emerald-900'
+                        ? 'bg-rose-50/60 border-rose-200 text-rose-950' 
+                        : 'bg-emerald-50/60 border-emerald-200 text-emerald-950'
                 }`;
 
                 card.innerHTML = `
                     <div class="flex justify-between items-start">
-                        <span class="font-bold text-base">${nomerkamar}</span>
-                        <span class="w-3 h-3 rounded-full ${isLunas ? 'bg-rose-500' : 'bg-emerald-500'}"></span>
+                        <span class="font-extrabold text-base tracking-tight">${nomorKamar}</span>
+                        <span class="w-3 h-3 rounded-full ${isLunas ? 'bg-rose-500 shadow-sm shadow-rose-300' : 'bg-emerald-500 shadow-sm shadow-emerald-300'}"></span>
                     </div>
                     <div>
-                        <span class="text-xs font-semibold px-2.5 py-1 rounded-md ${
-                            isLunas ? 'bg-rose-200 text-rose-800' : 'bg-emerald-200 text-emerald-800'
+                        <span class="text-xs font-bold px-3 py-1.5 rounded-xl inline-block ${
+                            isLunas ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'
                         }">
-                            ${isLunas ? 'Lunas / Terisi' : 'Tersedia'}
+                            ${isLunas ? 'Terisi / Lunas' : 'Tersedia'}
                         </span>
                     </div>
                 `;
@@ -105,7 +116,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            tampilkanKamar('Madani 1', 9);
+            pilihCabang('Madani 1', 9);
         });
     </script>
 </body>
