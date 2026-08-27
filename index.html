@@ -3,14 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kost Madani - Beranda</title>
+    <title>Kost Madani - Beranda Interaktif</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts & Font Awesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>body { font-family: 'Inter', sans-serif; }</style>
+    <style>
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
+    <!-- 1. HEADER & NAVIGATION BAR -->
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -25,51 +32,200 @@
         </div>
     </header>
 
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full space-y-12">
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow space-y-12 pb-16">
         
-        <section class="text-center max-w-2xl mx-auto">
-            <h1 class="text-3xl font-extrabold text-slate-900 sm:text-4xl">Cek Ketersediaan Kamar</h1>
-            <p class="mt-3 text-slate-600 text-sm sm:text-base">Pilih cabang untuk melihat ketersediaan kamar secara real-time.</p>
+        <!-- 2. HERO SECTION -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-16 grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <span class="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span> Sistem Informasi Kost
+                </span>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mt-4 leading-tight">
+                    Kelola & Cek Pembayaran Kost Madani Lebih Mudah
+                </h1>
+                <p class="text-slate-600 text-lg mt-4 leading-relaxed">
+                    Platform resmi transparansi tagihan, konfirmasi pembayaran bulanan, dan rekap data hunian secara praktis dan aman.
+                </p>
+                <div class="mt-8 flex flex-wrap gap-4">
+                    <a href="pembayaran.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg shadow-blue-500/30 transition duration-200 flex items-center gap-2 transform active:scale-95">
+                        <i class="fa-solid fa-credit-card"></i> Bayar Sekarang
+                    </a>
+                    <a href="https://wa.me/628884316826?text=Halo%20Mas%20Dedi%20Rikal,%20saya%20ingin%20bertanya%20seputar%20Kost%20Madani" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition duration-200 flex items-center gap-2 transform active:scale-95">
+                        <i class="fa-brands fa-whatsapp text-xl"></i> Hubungi WhatsApp
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Interactive Visual Hero Card -->
+            <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden card-hover">
+                <div class="relative z-10">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-lg font-semibold opacity-90">Ringkasan Tagihan</h2>
+                        <span class="bg-emerald-400/20 text-emerald-300 text-xs font-bold px-2.5 py-1 rounded flex items-center gap-1">
+                            <i class="fa-solid fa-bolt text-xs"></i> Update Realtime
+                        </span>
+                    </div>
+                    <p class="text-sm opacity-80">Jatuh Tempo Berikutnya</p>
+                    <p class="text-3xl font-bold mt-1 mb-6">Tanggal 05 Setiap Bulan</p>
+                    
+                    <!-- Quick Copy Account Info -->
+                    <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/10 mb-4">
+                        <p class="text-xs text-blue-100 font-medium mb-1">Rekening Pembayaran (BRI)</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-mono font-bold tracking-wider" id="no-rek">1234 5678 90</span>
+                            <button onclick="copyRekening()" class="text-xs bg-white text-blue-700 px-3 py-1.5 rounded-md font-semibold hover:bg-blue-50 transition active:scale-95">
+                                <i class="fa-regular fa-copy"></i> <span id="btn-copy-text">Salin</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-white/20 pt-4 flex justify-between items-center text-sm">
+                        <span>Metode Pembayaran</span>
+                        <span class="font-medium">QRIS, Transfer Bank</span>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <!-- Filter Cabang -->
-        <div class="flex justify-center gap-3 flex-wrap">
-            <button onclick="pilihCabang('Madani 1', 9)" id="btn-m1" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-blue-600 text-white shadow-md">Madani 1 (9 Kamar)</button>
-            <button onclick="pilihCabang('Madani 2', 10)" id="btn-m2" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-white text-slate-600 border border-slate-200 hover:bg-slate-100">Madani 2 (10 Kamar)</button>
-            <button onclick="pilihCabang('Madani Putri', 16)" id="btn-mp" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-white text-slate-600 border border-slate-200 hover:bg-slate-100">Madani Putri (16 Kamar)</button>
-        </div>
+        <!-- 3. QUICK STATS BAR -->
+        <section class="bg-white border-y border-slate-200 py-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 card-hover">
+                    <div class="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-bed"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-slate-500 font-medium">Kapasitas Hunian</p>
+                        <p class="text-xl font-bold text-slate-900">Total 35 Kamar</p>
+                    </div>
+                </div>
 
-        <!-- Legend Status -->
-        <div class="flex justify-center gap-6 text-xs font-semibold text-slate-600">
-            <div class="flex items-center gap-2">
-                <span class="w-3.5 h-3.5 rounded-full bg-emerald-500 inline-block"></span> Tersedia
-            </div>
-            <div class="flex items-center gap-2">
-                <span class="w-3.5 h-3.5 rounded-full bg-rose-500 inline-block"></span> Terisi / Lunas
-            </div>
-        </div>
+                <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 card-hover">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-slate-500 font-medium">Status Pembayaran</p>
+                        <p class="text-xl font-bold text-slate-900">Sistem Real-Time</p>
+                    </div>
+                </div>
 
-        <!-- Grid Kamar -->
-        <div id="grid-kamar" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-w-5xl mx-auto">
-            <!-- Disusun secara otomatis dengan status real-time dari Database -->
-        </div>
+                <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 card-hover">
+                    <div class="w-12 h-12 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-slate-500 font-medium">Layanan Pengelola</p>
+                        <p class="text-xl font-bold text-slate-900">Responsif 24/7</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. GRID KETERSEDIAAN KAMAR (SINKRON DATABASE) -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+            <div class="text-center max-w-2xl mx-auto">
+                <h2 class="text-3xl font-extrabold text-slate-900">Cek Ketersediaan Kamar</h2>
+                <p class="mt-2 text-slate-600 text-sm sm:text-base">Pilih cabang untuk melihat ketersediaan kamar secara real-time.</p>
+            </div>
+
+            <!-- Filter Cabang -->
+            <div class="flex justify-center gap-3 flex-wrap">
+                <button onclick="pilihCabang('Madani 1', 9)" id="btn-m1" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-blue-600 text-white shadow-md">Madani 1 (9 Kamar)</button>
+                <button onclick="pilihCabang('Madani 2', 10)" id="btn-m2" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-white text-slate-600 border border-slate-200 hover:bg-slate-100">Madani 2 (10 Kamar)</button>
+                <button onclick="pilihCabang('Madani Putri', 16)" id="btn-mp" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-white text-slate-600 border border-slate-200 hover:bg-slate-100">Madani Putri (16 Kamar)</button>
+            </div>
+
+            <!-- Legend Status -->
+            <div class="flex justify-center gap-6 text-xs font-semibold text-slate-600">
+                <div class="flex items-center gap-2">
+                    <span class="w-3.5 h-3.5 rounded-full bg-emerald-500 inline-block"></span> Tersedia
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-3.5 h-3.5 rounded-full bg-rose-500 inline-block"></span> Terisi / Lunas
+                </div>
+            </div>
+
+            <!-- Grid Kamar Visual -->
+            <div id="grid-kamar" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-w-5xl mx-auto">
+                <!-- Render otomatis via JavaScript -->
+            </div>
+        </section>
+
+        <!-- 5. INTERACTIVE SEARCH & MODAL -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+            <div class="bg-slate-900 text-white rounded-2xl p-8 md:p-12 text-center max-w-3xl mx-auto shadow-2xl relative overflow-hidden">
+                <h2 class="text-2xl md:text-3xl font-bold">Cek Quick Search Status Kamar</h2>
+                <p class="text-slate-400 mt-2 text-sm">Masukkan nomor kamar Anda untuk verifikasi instan.</p>
+                
+                <form onsubmit="cekKamar(event)" class="mt-6 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                    <input type="text" id="inputKamar" placeholder="Contoh: 01, 02, 03..." required class="px-4 py-3 rounded-lg text-slate-900 flex-grow focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition active:scale-95">
+                        <i class="fa-solid fa-magnifying-glass"></i> Cek Status
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 6. FAQ INTERAKTIF (ACCORDION) -->
+        <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+            <h2 class="text-2xl font-bold text-center text-slate-900 mb-8">Pertanyaan Umum (FAQ)</h2>
+            
+            <div class="space-y-4">
+                <div class="border border-slate-200 rounded-xl bg-white overflow-hidden">
+                    <button onclick="toggleFaq(1)" class="w-full text-left px-6 py-4 font-semibold text-slate-900 flex justify-between items-center hover:bg-slate-50">
+                        <span>Bagaimana cara mengonfirmasi pembayaran?</span>
+                        <i id="faq-icon-1" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faq-ans-1" class="hidden px-6 pb-4 text-slate-600 text-sm border-t border-slate-100 pt-3">
+                        Anda dapat masuk ke halaman <strong>Pembayaran</strong>, lalu unggah resi/bukti transfer bank. Pengelola akan memverifikasi dalam waktu 1x24 jam.
+                    </div>
+                </div>
+
+                <div class="border border-slate-200 rounded-xl bg-white overflow-hidden">
+                    <button onclick="toggleFaq(2)" class="w-full text-left px-6 py-4 font-semibold text-slate-900 flex justify-between items-center hover:bg-slate-50">
+                        <span>Kapan batas waktu pembayaran bulanan?</span>
+                        <i id="faq-icon-2" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faq-ans-2" class="hidden px-6 pb-4 text-slate-600 text-sm border-t border-slate-100 pt-3">
+                        Pembayaran dilakukan paling lambat <strong>tanggal 05</strong> di setiap bulannya.
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <footer class="bg-white border-t border-slate-200 py-6 mt-12">
+    <!-- MODAL POPUP RESULTS -->
+    <div id="resultModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl relative animate-fade-in text-center">
+            <div id="modalIcon" class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl mb-4"></div>
+            <h3 id="modalTitle" class="text-xl font-bold text-slate-900"></h3>
+            <p id="modalDesc" class="text-sm text-slate-600 mt-2"></p>
+            <div class="mt-6">
+                <button onclick="closeModal()" class="w-full bg-slate-900 text-white font-semibold py-2.5 rounded-lg hover:bg-slate-800 transition">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-500 text-sm">
             <p>© 2026 Kost Madani. Sistem Informasi Pembayaran Kost.</p>
         </div>
     </footer>
 
+    <!-- INTERACTIVE JAVASCRIPT -->
     <script>
         let cabangAktif = 'Madani 1';
         let totalKamarAktif = 9;
 
+        // Render Grid Kamar berdasarkan Cabang & LocalStorage Database
         function pilihCabang(cabang, totalKamar) {
             cabangAktif = cabang;
             totalKamarAktif = totalKamar;
             
-            // Perbarui Gaya Tombol Filter
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.className = "tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition";
             });
@@ -113,6 +269,63 @@
                 `;
                 container.appendChild(card);
             }
+        }
+
+        // Function Cek Status Modal (Search Input)
+        function cekKamar(e) {
+            e.preventDefault();
+            const inputVal = document.getElementById('inputKamar').value.trim();
+            const modal = document.getElementById('resultModal');
+            const icon = document.getElementById('modalIcon');
+            const title = document.getElementById('modalTitle');
+            const desc = document.getElementById('modalDesc');
+
+            const statusKamarMap = JSON.parse(localStorage.getItem('status_kamar_kost')) || {};
+            const nomorFormatted = inputVal.length === 1 ? '0' + inputVal : inputVal;
+            const keyKamar = `${cabangAktif}-Kamar ${nomorFormatted}`;
+            const isLunas = statusKamarMap[keyKamar] === 'Lunas';
+
+            if (parseInt(inputVal) > 0 && parseInt(inputVal) <= totalKamarAktif) {
+                if (isLunas) {
+                    icon.className = "w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl mb-4 bg-rose-100 text-rose-600";
+                    icon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+                    title.innerText = `${cabangAktif} - Kamar ${nomorFormatted}`;
+                    desc.innerText = `Status: Terisi / Lunas. Pembayaran telah terverifikasi oleh pengelola.`;
+                } else {
+                    icon.className = "w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl mb-4 bg-emerald-100 text-emerald-600";
+                    icon.innerHTML = '<i class="fa-solid fa-door-open"></i>';
+                    title.innerText = `${cabangAktif} - Kamar ${nomorFormatted}`;
+                    desc.innerText = `Status: Tersedia. Kamar ini masih kosong atau belum terbayar.`;
+                }
+            } else {
+                icon.className = "w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl mb-4 bg-slate-100 text-slate-600";
+                icon.innerHTML = '<i class="fa-solid fa-question"></i>';
+                title.innerText = "Data Tidak Ditemukan";
+                desc.innerText = `Nomor kamar ${inputVal} tidak tersedia di ${cabangAktif} (1 - ${totalKamarAktif}).`;
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('resultModal').classList.add('hidden');
+        }
+
+        // Function Copy Rekening
+        function copyRekening() {
+            const noRek = document.getElementById('no-rek').innerText;
+            navigator.clipboard.writeText(noRek.replace(/\s+/g, ''));
+            const btnText = document.getElementById('btn-copy-text');
+            btnText.innerText = "Tersalin!";
+            setTimeout(() => { btnText.innerText = "Salin"; }, 2000);
+        }
+
+        // Function Toggle FAQ
+        function toggleFaq(id) {
+            const ans = document.getElementById(`faq-ans-${id}`);
+            const icon = document.getElementById(`faq-icon-${id}`);
+            ans.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
         }
 
         document.addEventListener('DOMContentLoaded', () => {
