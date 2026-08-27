@@ -125,6 +125,7 @@
                                 <th class="py-4 px-6">Nama Penghuni</th>
                                 <th class="py-4 px-6">Kamar</th>
                                 <th class="py-4 px-6">Periode</th>
+                                <th class="py-4 px-6">Bukti Transfer</th>
                                 <th class="py-4 px-6">Status</th>
                                 <th class="py-4 px-6 text-center">Aksi Status</th>
                             </tr>
@@ -142,6 +143,34 @@
         </div>
 
     </main>
+
+    <!-- MODAL POPUP PREVIEW BUKTI BAYAR -->
+    <div id="modalBukti" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative border border-slate-100">
+            <div class="flex justify-between items-center mb-4 pb-2 border-b border-slate-100">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-file-invoice-dollar text-blue-600"></i> Bukti Pembayaran
+                </h3>
+                <button onclick="tutupModalBukti()" class="text-slate-400 hover:text-rose-600 text-xl font-bold transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="flex justify-center items-center overflow-hidden rounded-xl bg-slate-100 min-h-[250px] max-h-[70vh] p-2">
+                <img id="imgBuktiPreview" src="" alt="Bukti Transfer" class="max-h-[65vh] w-auto object-contain rounded-lg">
+                <iframe id="pdfBuktiPreview" src="" class="w-full h-[60vh] rounded-lg hidden"></iframe>
+            </div>
+
+            <div class="mt-4 flex justify-between items-center">
+                <a id="btnDownloadBukti" href="#" download="Bukti_Pembayaran.png" class="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1">
+                    <i class="fa-solid fa-download"></i> Unduh File
+                </a>
+                <button onclick="tutupModalBukti()" class="bg-slate-800 text-white text-xs font-bold px-4 py-2 rounded-xl hover:bg-slate-900 transition">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- FOOTER -->
     <footer class="bg-white border-t border-slate-200 py-6 mt-auto">
@@ -228,7 +257,7 @@
             tampilkanTampilan();
         }
 
-        // 4. Render Data Transaksi & Tombol Status + Tombol Hapus
+        // 4. Render Data Transaksi & Tombol Status + Tombol Hapus + Tombol Lihat Bukti
         function renderTabelTransaksi() {
             const transaksiList = JSON.parse(localStorage.getItem('transaksi_kost')) || [];
             const statusKamarMap = JSON.parse(localStorage.getItem('status_kamar_kost')) || {};
@@ -251,9 +280,20 @@
                 // Key unik kamar
                 const keyKamar = `${item.cabang}-${item.kamar.includes('Kamar') ? item.kamar : 'Kamar ' + item.kamar}`;
                 const isLunas = statusKamarMap[keyKamar] === 'Lunas' || item.status === 'Lunas';
+                const itemId = item.id || index;
 
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50/80 transition";
+
+                // Komponen Bukti Pembayaran
+                let buktiHtml = `<span class="text-xs text-slate-400 italic">Tidak ada</span>`;
+                if (item.bukti) {
+                    buktiHtml = `
+                        <button onclick="bukaModalBukti('${itemId}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-200 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-eye"></i> Lihat Bukti
+                        </button>
+                    `;
+                }
 
                 tr.innerHTML = `
                     <td class="py-4 px-6 text-slate-600 font-medium">${item.tanggal || '-'}</td>
@@ -261,6 +301,7 @@
                     <td class="py-4 px-6 text-slate-800 font-semibold">${item.nama}</td>
                     <td class="py-4 px-6 font-bold text-blue-600">${item.kamar}</td>
                     <td class="py-4 px-6 text-slate-600">${item.bulan} ${item.tahun || ''}</td>
+                    <td class="py-4 px-6">${buktiHtml}</td>
                     <td class="py-4 px-6">
                         <span class="px-3 py-1 rounded-full text-xs font-bold ${
                             isLunas 
@@ -274,17 +315,17 @@
                         <div class="flex items-center justify-center gap-2">
                             ${
                                 isLunas ? `
-                                    <button onclick="ubahStatus('${keyKamar}', 'Belum Lunas', '${item.id || index}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-200 text-slate-700 hover:bg-slate-300 transition flex items-center gap-1">
+                                    <button onclick="ubahStatus('${keyKamar}', 'Belum Lunas', '${itemId}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-200 text-slate-700 hover:bg-slate-300 transition flex items-center gap-1">
                                         <i class="fa-solid fa-rotate-left"></i> Tandai Belum Lunas
                                     </button>
                                 ` : `
-                                    <button onclick="ubahStatus('${keyKamar}', 'Lunas', '${item.id || index}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition flex items-center gap-1">
+                                    <button onclick="ubahStatus('${keyKamar}', 'Lunas', '${itemId}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition flex items-center gap-1">
                                         <i class="fa-solid fa-check"></i> Set Lunas
                                     </button>
                                 `
                             }
                             <!-- Tombol Hapus Transaksi -->
-                            <button onclick="hapusTransaksi('${item.id || index}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-rose-600 text-white hover:bg-rose-700 shadow-sm transition flex items-center gap-1" title="Hapus Data">
+                            <button onclick="hapusTransaksi('${itemId}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-rose-600 text-white hover:bg-rose-700 shadow-sm transition flex items-center gap-1" title="Hapus Data">
                                 <i class="fa-solid fa-trash-can"></i> Hapus
                             </button>
                         </div>
@@ -323,6 +364,38 @@
                 localStorage.setItem('transaksi_kost', JSON.stringify(transaksiList));
                 renderTabelTransaksi();
             }
+        }
+
+        // 7. Fungsi Modal Preview Bukti Pembayaran
+        function bukaModalBukti(idTransaksi) {
+            const transaksiList = JSON.parse(localStorage.getItem('transaksi_kost')) || [];
+            const item = transaksiList.find((t, idx) => (t.id ? t.id === idTransaksi : idx == idTransaksi));
+
+            if (item && item.bukti) {
+                const imgPreview = document.getElementById('imgBuktiPreview');
+                const pdfPreview = document.getElementById('pdfBuktiPreview');
+                const downloadBtn = document.getElementById('btnDownloadBukti');
+
+                downloadBtn.href = item.bukti;
+
+                if (item.bukti.startsWith('data:application/pdf')) {
+                    imgPreview.classList.add('hidden');
+                    pdfPreview.classList.remove('hidden');
+                    pdfPreview.src = item.bukti;
+                } else {
+                    pdfPreview.classList.add('hidden');
+                    imgPreview.classList.remove('hidden');
+                    imgPreview.src = item.bukti;
+                }
+
+                document.getElementById('modalBukti').classList.remove('hidden');
+            }
+        }
+
+        function tutupModalBukti() {
+            document.getElementById('modalBukti').classList.add('hidden');
+            document.getElementById('imgBuktiPreview').src = '';
+            document.getElementById('pdfBuktiPreview').src = '';
         }
 
         // Inisialisasi saat pertama kali dibuka
