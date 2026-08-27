@@ -126,7 +126,7 @@
             const today = new Date();
             const tanggalStr = `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`;
 
-            // Objek data transaksi
+            // Buat objek data transaksi baru
             const dataBaru = {
                 id: 'trx_' + Date.now(),
                 tanggal: tanggalStr,
@@ -138,19 +138,20 @@
                 status: 'Menunggu Konfirmasi'
             };
 
-            // Ambil data dari localStorage
+            // Ambil data lama dari localStorage
             let transaksiList = JSON.parse(localStorage.getItem('transaksi_kost')) || [];
 
-            // Tambahkan data baru
+            // Tambahkan data baru ke paling atas daftar
             transaksiList.unshift(dataBaru);
 
-            // Simpan ke localStorage (diperbaiki tanpa sintaks ganda)
+            // Simpan data yang sudah diperbarui ke localStorage
             localStorage.setItem('transaksi_kost', JSON.stringify(transaksiList));
 
-            // Notifikasi & reset
+            // Tampilkan notifikasi sukses & Reset Form
             document.getElementById('alertSuccess').classList.remove('hidden');
             document.getElementById('formPembayaran').reset();
 
+            // Sembunyikan notifikasi setelah 4 detik
             setTimeout(() => {
                 document.getElementById('alertSuccess').classList.add('hidden');
             }, 4000);
