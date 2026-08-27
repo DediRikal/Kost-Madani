@@ -36,41 +36,41 @@
         <!-- JUDUL HALAMAN -->
         <div class="text-center max-w-2xl mx-auto mb-10">
             <h1 class="text-3xl font-extrabold text-slate-900">Pembayaran Tagihan Kost</h1>
-            <p class="text-slate-600 mt-2">Pilih unit lokasi kost Anda di bawah ini untuk melihat tujuan pembayaran dan konfirmasi.</p>
+            <p class="text-slate-600 mt-2">Pilih lokasi kost Anda, lalu isi formulir pembayaran di bawah ini secara lengkap.</p>
         </div>
 
-        <!-- 2. PILIHAN 3 TOMBOL LOKASI KOST -->
+        <!-- 2. PILIHAN TOMBOL LOKASI KOST -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-10">
-            <button onclick="selectKost('madani1')" id="btn-madani1" class="kost-btn bg-blue-600 text-white font-bold p-5 rounded-2xl border-2 border-blue-600 shadow-lg transition flex items-center justify-center gap-3">
+            <button onclick="selectKost('Madani 1')" id="btn-madani1" class="kost-btn bg-blue-600 text-white font-bold p-5 rounded-2xl border-2 border-blue-600 shadow-lg transition flex items-center justify-center gap-3">
                 <i class="fa-solid fa-house-user text-xl"></i>
                 <span>Madani 1</span>
             </button>
 
-            <button onclick="selectKost('madani2')" id="btn-madani2" class="kost-btn bg-white text-slate-700 font-bold p-5 rounded-2xl border-2 border-slate-200 hover:border-blue-600 shadow-sm transition flex items-center justify-center gap-3">
+            <button onclick="selectKost('Madani 2')" id="btn-madani2" class="kost-btn bg-white text-slate-700 font-bold p-5 rounded-2xl border-2 border-slate-200 hover:border-blue-600 shadow-sm transition flex items-center justify-center gap-3">
                 <i class="fa-solid fa-house-flag text-xl"></i>
                 <span>Madani 2</span>
             </button>
 
-            <button onclick="selectKost('madaniputri')" id="btn-madaniputri" class="kost-btn bg-white text-slate-700 font-bold p-5 rounded-2xl border-2 border-slate-200 hover:border-pink-500 shadow-sm transition flex items-center justify-center gap-3">
+            <button onclick="selectKost('Madani Putri')" id="btn-madaniputri" class="kost-btn bg-white text-slate-700 font-bold p-5 rounded-2xl border-2 border-slate-200 hover:border-pink-500 shadow-sm transition flex items-center justify-center gap-3">
                 <i class="fa-solid fa-venus text-xl text-pink-500"></i>
                 <span>Madani Putri</span>
             </button>
         </div>
 
-        <!-- 3. PANEL DETAIL PEMBAYARAN -->
+        <!-- 3. FORMULIR PEMBAYARAN & DETAIL REKENING -->
         <div class="max-w-4xl mx-auto bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8 grid md:grid-cols-2 gap-8 items-start">
             
             <!-- INFORMASI REKENING -->
             <div>
                 <div class="inline-block bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-3" id="badge-lokasi">
-                    Unit: Madani 1
+                    Unit Terpilih: Madani 1
                 </div>
-                <h2 class="text-xl font-bold text-slate-900 mb-4">Metode Pembayaran Transfer</h2>
+                <h2 class="text-xl font-bold text-slate-900 mb-4">Informasi Rekening</h2>
                 
                 <div class="space-y-4">
                     <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
                         <p class="text-xs text-slate-500 font-medium">Bank Tujuan</p>
-                        <p class="text-lg font-bold text-slate-900" id="nama-bank">Bank BCA</p>
+                        <p class="text-lg font-bold text-slate-900">Bank BCA</p>
                     </div>
 
                     <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
@@ -85,28 +85,48 @@
 
                     <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
                         <p class="text-xs text-slate-500 font-medium">Atas Nama (Pengelola)</p>
-                        <p class="text-base font-bold text-slate-900" id="nama-pemilik">Dedi Rikal</p>
+                        <p class="text-base font-bold text-slate-900">Dedi Rikal</p>
                     </div>
                 </div>
             </div>
 
-            <!-- INSTRUKSI & KONFIRMASI -->
-            <div class="flex flex-col h-full justify-between bg-slate-50 p-6 rounded-xl border border-slate-200">
-                <div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-3">Langkah Konfirmasi:</h3>
-                    <ol class="list-decimal list-inside text-sm text-slate-600 space-y-2 leading-relaxed">
-                        <li>Lakukan transfer sesuai nominal tagihan kamar Anda.</li>
-                        <li>Simpan resi atau tangkapan layar (screenshot) bukti transfer.</li>
-                        <li>Klik tombol konfirmasi di bawah ini untuk mengirim bukti via WhatsApp pengelola.</li>
-                    </ol>
-                </div>
+            <!-- FORMULIR INPUT DATA PENGHUNI -->
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square text-blue-600"></i> Form Data Konfirmasi
+                </h3>
+                
+                <form onsubmit="kirimForm(event)" class="space-y-4">
+                    <!-- INPUT NAMA -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap</label>
+                        <input type="text" id="nama" placeholder="Masukkan nama Anda" required class="w-full px-3 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                    </div>
 
-                <div class="mt-8">
-                    <a id="link-wa-konfirmasi" href="https://wa.me/628884316826?text=Halo%20Mas%20Dedi%20Rikal,%20saya%20mau%20konfirmasi%20pembayaran%20untuk%20Kost%20Madani%201" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-4 rounded-xl shadow-md transition duration-200 flex items-center justify-center gap-2 active:scale-95">
-                        <i class="fa-brands fa-whatsapp text-2xl"></i>
-                        <span>Konfirmasi via WhatsApp</span>
-                    </a>
-                </div>
+                    <!-- INPUT NOMOR KAMAR -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Nomor Kamar</label>
+                        <input type="text" id="kamar" placeholder="Contoh: Kamar 04" required class="w-full px-3 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                    </div>
+
+                    <!-- INPUT BULAN & TAHUN -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Pembayaran untuk Bulan & Tahun</label>
+                        <input type="month" id="periode" required class="w-full px-3 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                    </div>
+
+                    <!-- UPLOAD BUKTI PEMBAYARAN -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Unggah Bukti Pembayaran (Resi/Transfer)</label>
+                        <input type="file" id="bukti" accept="image/*,.pdf" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 bg-white border border-slate-300 rounded-lg p-1">
+                    </div>
+
+                    <!-- TOMBOL KIRIM -->
+                    <button type="submit" class="w-full mt-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl shadow-md transition duration-200 flex items-center justify-center gap-2 active:scale-95">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                        <span>Kirim Konfirmasi via WA</span>
+                    </button>
+                </form>
             </div>
 
         </div>
@@ -120,53 +140,27 @@
         </div>
     </footer>
 
-    <!-- SCRIPT INTERAKTIF LOGIKA KOST -->
+    <!-- SCRIPT LOGIKA FORMULIR -->
     <script>
-        const dataKost = {
-            madani1: {
-                title: "Unit: Madani 1",
-                bank: "Bank BCA",
-                rek: "1234 5678 90",
-                pemilik: "Dedi Rikal",
-                waText: "Halo%20Mas%20Dedi%20Rikal,%20saya%20mau%20konfirmasi%20pembayaran%20untuk%20Kost%20Madani%201"
-            },
-            madani2: {
-                title: "Unit: Madani 2",
-                bank: "Bank Mandiri",
-                rek: "0987 6543 21",
-                pemilik: "Dedi Rikal",
-                waText: "Halo%20Mas%20Dedi%20Rikal,%20saya%20mau%20konfirmasi%20pembayaran%20untuk%20Kost%20Madani%202"
-            },
-            madaniputri: {
-                title: "Unit: Madani Putri",
-                bank: "Bank BRI",
-                rek: "5555 4444 3333",
-                pemilik: "Dedi Rikal",
-                waText: "Halo%20Mas%20Dedi%20Rikal,%20saya%20mau%20konfirmasi%20pembayaran%20untuk%20Kost%20Madani%20Putri"
+        let selectedKostUnit = "Madani 1";
+
+        function selectKost(unitName) {
+            selectedKostUnit = unitName;
+            document.getElementById('badge-lokasi').innerText = `Unit Terpilih: ${unitName}`;
+
+            // Reset Button Style
+            document.getElementById('btn-madani1').className = "kost-btn bg-white text-slate-700 font-bold p-5 rounded-2xl border-2 border-slate-200 hover:border-blue-600 shadow-sm transition flex items-center justify-center gap-3";
+            document.getElementById('btn-madani2').className = "kost-btn bg-white text-slate-700 font-bold p-5 rounded-2xl border-2 border-slate-200 hover:border-blue-600 shadow-sm transition flex items-center justify-center gap-3";
+            document.getElementById('btn-madaniputri').className = "kost-btn bg-white text-slate-700 font-bold p-5 rounded-2xl border-2 border-slate-200 hover:border-pink-500 shadow-sm transition flex items-center justify-center gap-3";
+
+            // Set Active Button Style
+            if (unitName === 'Madani 1') {
+                document.getElementById('btn-madani1').className = "kost-btn bg-blue-600 text-white font-bold p-5 rounded-2xl border-2 border-blue-600 shadow-lg transition flex items-center justify-center gap-3";
+            } else if (unitName === 'Madani 2') {
+                document.getElementById('btn-madani2').className = "kost-btn bg-blue-600 text-white font-bold p-5 rounded-2xl border-2 border-blue-600 shadow-lg transition flex items-center justify-center gap-3";
+            } else if (unitName === 'Madani Putri') {
+                document.getElementById('btn-madaniputri').className = "kost-btn bg-pink-500 text-white font-bold p-5 rounded-2xl border-2 border-pink-500 shadow-lg transition flex items-center justify-center gap-3";
             }
-        };
-
-        function selectKost(unitKey) {
-            // Reset Button Styling
-            document.querySelectorAll('.kost-btn').forEach(btn => {
-                btn.className = "kost-btn bg-white text-slate-700 font-bold p-5 rounded-2xl border-2 border-slate-200 hover:border-blue-600 shadow-sm transition flex items-center justify-center gap-3";
-            });
-
-            // Set Active Button Styling
-            const activeBtn = document.getElementById(`btn-${unitKey}`);
-            if (unitKey === 'madaniputri') {
-                activeBtn.className = "kost-btn bg-pink-500 text-white font-bold p-5 rounded-2xl border-2 border-pink-500 shadow-lg transition flex items-center justify-center gap-3";
-            } else {
-                activeBtn.className = "kost-btn bg-blue-600 text-white font-bold p-5 rounded-2xl border-2 border-blue-600 shadow-lg transition flex items-center justify-center gap-3";
-            }
-
-            // Update Panel Data
-            const data = dataKost[unitKey];
-            document.getElementById('badge-lokasi').innerText = data.title;
-            document.getElementById('nama-bank').innerText = data.bank;
-            document.getElementById('no-rekening').innerText = data.rek;
-            document.getElementById('nama-pemilik').innerText = data.pemilik;
-            document.getElementById('link-wa-konfirmasi').href = `https://wa.me/628884316826?text=${data.waText}`;
         }
 
         function copyRek() {
@@ -175,6 +169,26 @@
             const copyBtn = document.getElementById('text-copy');
             copyBtn.innerText = "Tersalin!";
             setTimeout(() => { copyBtn.innerText = "Salin"; }, 2000);
+        }
+
+        function kirimForm(e) {
+            e.preventDefault();
+            
+            const nama = document.getElementById('nama').value;
+            const kamar = document.getElementById('kamar').value;
+            const periode = document.getElementById('periode').value; // Format: YYYY-MM
+            
+            // Format teks bulan & tahun agar lebih rapi (misal: "2026-08" menjadi "Agustus 2026")
+            const [tahun, bulan] = periode.split('-');
+            const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+            const periodeFormatted = `${namaBulan[parseInt(bulan) - 1]} ${tahun}`;
+
+            // Susun Teks Pesan WhatsApp
+            const pesanWA = `Halo Mas Dedi Rikal,%0A%0ASaya mau konfirmasi pembayaran kost:%0A- *Lokasi Kost:* ${selectedKostUnit}%0A- *Nama:* ${nama}%0A- *Nomor Kamar:* ${kamar}%0A- *Periode:* ${periodeFormatted}%0A%0ABukti transfer sudah saya lampirkan di pesan ini.`;
+
+            // Buka WhatsApp
+            const urlWA = `https://wa.me/628884316826?text=${pesanWA}`;
+            window.open(urlWA, '_blank');
         }
     </script>
 </body>
