@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kost Madani - Pilih Cabang Pembayaran</title>
+    <title>Kost Madani - Form Pembayaran</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts & Font Awesome Icons -->
@@ -30,52 +30,133 @@
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div class="text-center max-w-2xl mx-auto mb-12">
-            <h1 class="text-3xl font-extrabold text-slate-900">Pilih Lokasi Kost Anda</h1>
-            <p class="text-slate-600 mt-2">Klik salah satu cabang di bawah ini untuk masuk ke halaman formulir pembayaran spesifik.</p>
-        </div>
+    <!-- MAIN FORM CONTAINER -->
+    <main class="flex-grow max-w-2xl mx-auto px-4 sm:px-6 py-10 w-full">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 p-6 sm:p-8">
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-slate-900">Konfirmasi Pembayaran</h1>
+                <p class="text-slate-500 text-sm mt-1">Isi formulir di bawah ini untuk memperbarui status transaksi pembayaran kamu.</p>
+            </div>
 
-        <!-- 3 TOMBOL NAVIGASI HALAMAN -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            
-            <!-- TOMBOL MADANI 1 -->
-            <a href="madani1.html" class="bg-white hover:bg-blue-50 text-slate-800 p-8 rounded-2xl border-2 border-slate-200 hover:border-blue-600 shadow-sm hover:shadow-md transition text-center flex flex-col items-center group">
-                <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition">
-                    <i class="fa-solid fa-house-user"></i>
+            <!-- Alert Notifikasi Sukses -->
+            <div id="alertSuccess" class="hidden mb-6 bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-xl text-sm flex items-center gap-3">
+                <i class="fa-solid fa-circle-check text-emerald-600 text-xl"></i>
+                <div>
+                    <strong class="font-bold">Pembayaran Berhasil Dikirim!</strong>
+                    <p class="text-xs text-emerald-700">Data telah masuk ke Database Admin. Menunggu konfirmasi kelunasan.</p>
                 </div>
-                <h2 class="text-xl font-bold text-slate-900">Madani 1</h2>
-                <p class="text-xs text-slate-500 mt-2">Klik untuk masuk ke halaman formulir Madani 1</p>
-            </a>
+            </div>
 
-            <!-- TOMBOL MADANI 2 -->
-            <a href="madani2.html" class="bg-white hover:bg-blue-50 text-slate-800 p-8 rounded-2xl border-2 border-slate-200 hover:border-blue-600 shadow-sm hover:shadow-md transition text-center flex flex-col items-center group">
-                <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition">
-                    <i class="fa-solid fa-house-flag"></i>
+            <form id="formPembayaran" onsubmit="simpanPembayaran(event)" class="space-y-5">
+                <!-- Cabang Kost -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Pilih Cabang Kost</label>
+                    <select id="inputCabang" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 bg-white">
+                        <option value="" disabled selected>-- Pilih Cabang --</option>
+                        <option value="Madani 1">Madani 1</option>
+                        <option value="Madani 2">Madani 2</option>
+                        <option value="Madani Putri">Madani Putri</option>
+                    </select>
                 </div>
-                <h2 class="text-xl font-bold text-slate-900">Madani 2</h2>
-                <p class="text-xs text-slate-500 mt-2">Klik untuk masuk ke halaman formulir Madani 2</p>
-            </a>
 
-            <!-- TOMBOL MADANI PUTRI -->
-            <a href="madaniputri.html" class="bg-white hover:bg-pink-50 text-slate-800 p-8 rounded-2xl border-2 border-slate-200 hover:border-pink-500 shadow-sm hover:shadow-md transition text-center flex flex-col items-center group">
-                <div class="w-16 h-16 bg-pink-100 text-pink-500 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition">
-                    <i class="fa-solid fa-venus"></i>
+                <!-- Nama Penghuni -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Nama Penghuni</label>
+                    <input type="text" id="inputNama" placeholder="Masukkan nama lengkap" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
                 </div>
-                <h2 class="text-xl font-bold text-slate-900">Madani Putri</h2>
-                <p class="text-xs text-slate-500 mt-2">Klik untuk masuk ke halaman formulir Madani Putri</p>
-            </a>
 
+                <!-- Nomor Kamar -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Nomor / Nama Kamar</label>
+                    <input type="text" id="inputKamar" placeholder="Contoh: 01 atau Kamar 09" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
+                </div>
+
+                <!-- Periode Bulan & Tahun -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Bulan Pembayaran</label>
+                        <select id="inputBulan" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 bg-white">
+                            <option value="Januari">Januari</option>
+                            <option value="Februari">Februari</option>
+                            <option value="Maret">Maret</option>
+                            <option value="April">April</option>
+                            <option value="Mei">Mei</option>
+                            <option value="Juni">Juni</option>
+                            <option value="Juli">Juli</option>
+                            <option value="Agustus">Agustus</option>
+                            <option value="September">September</option>
+                            <option value="Oktober">Oktober</option>
+                            <option value="November">November</option>
+                            <option value="Desember">Desember</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Tahun</label>
+                        <input type="number" id="inputTahun" value="2026" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-500/30 transition active:scale-95 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Kirim Konfirmasi Pembayaran
+                </button>
+            </form>
         </div>
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-white border-t border-slate-200 py-6">
+    <footer class="bg-white border-t border-slate-200 py-6 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-500 text-sm">
             <p>© 2026 Kost Madani. Sistem Informasi Pembayaran Kost.</p>
         </div>
     </footer>
 
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        function simpanPembayaran(e) {
+            e.preventDefault();
+
+            const cabang = document.getElementById('inputCabang').value;
+            const nama = document.getElementById('inputNama').value;
+            const kamar = document.getElementById('inputKamar').value;
+            const bulan = document.getElementById('inputBulan').value;
+            const tahun = document.getElementById('inputTahun').value;
+
+            // Format tanggal saat ini (DD/MM/YYYY)
+            const today = new Date();
+            const tanggalStr = `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`;
+
+            // Buat objek data transaksi baru
+            const dataBaru = {
+                id: 'trx_' + Date.now(),
+                tanggal: tanggalStr,
+                cabang: cabang,
+                nama: nama,
+                kamar: kamar,
+                bulan: bulan,
+                tahun: tahun,
+                status: 'Menunggu Konfirmasi'
+            };
+
+            // Ambil data lama dari localStorage (menggunakan key 'transaksi_kost')
+            let transaksiList = JSON.parse(localStorage.getItem('transaksi_kost')) || [];
+
+            // Tambahkan data baru ke paling atas daftar
+            transaksiList.unshift(dataBaru);
+
+            // Simpan kembali ke localStorage
+            localStorage.getItem('transaksi_kost');
+            localStorage.setItem('transaksi_kost', JSON.stringify(transaksiList));
+
+            // Tampilkan notifikasi sukses & Reset Form
+            document.getElementById('alertSuccess').classList.remove('hidden');
+            document.getElementById('formPembayaran').reset();
+
+            // Sembunyikan notifikasi setelah 4 detik
+            setTimeout(() => {
+                document.getElementById('alertSuccess').classList.add('hidden');
+            }, 4000);
+        }
+    </script>
 </body>
 </html>
