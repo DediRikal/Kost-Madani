@@ -3,19 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kost Madani - Database Admin</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Kost Madani - Database Pembayaran</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts & Font Awesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
+    <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
-    <!-- HEADER & NAVIGATION BAR -->
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -30,152 +25,90 @@
         </div>
     </header>
 
-    <!-- FORM LOGIN ADMIN (MUNCUL JIKA BELUM LOGIN) -->
-    <div id="login-modal" class="flex-grow flex items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-md max-w-sm w-full text-center">
-            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
-                <i class="fa-solid fa-lock"></i>
-            </div>
-            <h2 class="text-xl font-bold text-slate-900 mb-1">Akses Khusus Admin</h2>
-            <p class="text-xs text-slate-500 mb-6">Masukkan PIN keamanan untuk melihat database transaksi.</p>
-            
-            <form onsubmit="verifikasiAdmin(event)" class="space-y-4">
-                <input type="password" id="pin-admin" placeholder="Masukkan PIN (Default: 123456)" required class="w-full text-center tracking-widest px-3 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl transition">Masuk Admin</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- MAIN CONTENT DATABASE (HANYA TERLIHAT JIKA SUDAH LOGIN) -->
-    <main id="admin-panel" class="hidden flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
-        
-        <div class="flex justify-between items-center mb-6">
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
             <div>
-                <h1 class="text-2xl font-extrabold text-slate-900">Database Transaksi Pembayaran</h1>
-                <p class="text-sm text-slate-500">Rekapitulasi data konfirmasi masuk dari semua unit kost.</p>
+                <h1 class="text-2xl font-extrabold text-slate-900">Database Transaksi & Status Kamar</h1>
+                <p class="text-slate-500 text-sm">Kelola status kelunasan penghuni untuk memperbarui status kamar di Beranda.</p>
             </div>
-            <button onclick="logoutAdmin()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold px-4 py-2 rounded-lg transition">
-                <i class="fa-solid fa-right-from-bracket"></i> Keluar
-            </button>
         </div>
 
-        <!-- TABEL DATA -->
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse text-sm">
-                    <thead>
-                        <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-semibold text-xs uppercase tracking-wider">
-                            <th class="p-4">Tanggal Input</th>
-                            <th class="p-4">Lokasi Kost</th>
-                            <th class="p-4">Nama Penghuni</th>
-                            <th class="p-4">Nomor Kamar</th>
-                            <th class="p-4">Periode</th>
-                            <th class="p-4">Aksi</th>
+                <table class="w-full text-left text-sm text-slate-600">
+                    <thead class="bg-slate-100 text-slate-700 font-semibold uppercase text-xs">
+                        <tr>
+                            <th class="px-6 py-4">Tanggal</th>
+                            <th class="px-6 py-4">Cabang</th>
+                            <th class="px-6 py-4">Nama Penghuni</th>
+                            <th class="px-6 py-4">Kamar</th>
+                            <th class="px-6 py-4">Periode</th>
+                            <th class="px-6 py-4">Status</th>
+                            <th class="px-6 py-4 text-center">Aksi Status</th>
                         </tr>
                     </thead>
-                    <tbody id="tabel-body" class="divide-y divide-slate-200">
-                        <!-- Data dimasukkan via JS -->
+                    <tbody id="tabel-database" class="divide-y divide-slate-200">
+                        <!-- Data dimasukkan via JavaScript -->
                     </tbody>
                 </table>
             </div>
-            
-            <div id="empty-state" class="hidden p-8 text-center text-slate-400">
-                <i class="fa-solid fa-folder-open text-4xl mb-2"></i>
-                <p>Belum ada transaksi yang tercatat.</p>
-            </div>
         </div>
-
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-white border-t border-slate-200 py-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-500 text-sm">
-            <p>© 2026 Kost Madani. Sistem Informasi Pembayaran Kost.</p>
-        </div>
-    </footer>
-
     <script>
-        const PIN_BENAR = "familyforever24"; 
-
-        window.onload = function() {
-            if (sessionStorage.getItem('admin_login') === 'true') {
-                tampilkanDashboard();
-            }
-        };
-
-        function verifikasiAdmin(e) {
-            e.preventDefault();
-            const pinInput = document.getElementById('pin-admin').value;
+        function muatDatabase() {
+            const listTransaksi = JSON.parse(localStorage.getItem('database_kost')) || [];
+            const statusKamarMap = JSON.parse(localStorage.getItem('status_kamar_kost')) || {};
+            const tbody = document.getElementById('tabel-database');
             
-            if (pinInput === PIN_BENAR) {
-                sessionStorage.setItem('admin_login', 'true');
-                tampilkanDashboard();
-            } else {
-                alert("PIN Salah! Akses ditolak.");
-                document.getElementById('pin-admin').value = '';
-            }
-        }
-
-        function tampilkanDashboard() {
-            document.getElementById('login-modal').classList.add('hidden');
-            document.getElementById('admin-panel').classList.remove('hidden');
-            muatDataDatabase();
-        }
-
-        function logoutAdmin() {
-            sessionStorage.removeItem('admin_login');
-            location.reload();
-        }
-
-        function muatDataDatabase() {
-            const data = JSON.parse(localStorage.getItem('database_kost')) || [];
-            const tbody = document.getElementById('tabel-body');
-            const emptyState = document.getElementById('empty-state');
-
-            tbody.innerHTML = '';
-
-            if (data.length === 0) {
-                emptyState.classList.remove('hidden');
+            if (listTransaksi.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-slate-400">Belum ada data transaksi masuk.</td></tr>`;
                 return;
             }
 
-            emptyState.classList.add('hidden');
-            
-            const dataUrut = [...data].reverse();
-
-            dataUrut.forEach(item => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 transition";
-                tr.innerHTML = `
-                    <td class="p-4 text-slate-500 text-xs">${item.tanggal}</td>
-                    <td class="p-4"><span class="font-semibold px-2.5 py-1 rounded-full text-xs ${getBadgeStyle(item.lokasi)}">${item.lokasi}</span></td>
-                    <td class="p-4 font-bold text-slate-900">${item.nama}</td>
-                    <td class="p-4 text-slate-700">${item.kamar}</td>
-                    <td class="p-4 text-slate-700">${item.periode}</td>
-                    <td class="p-4">
-                        <button onclick="hapusData(${item.id})" class="text-red-500 hover:text-red-700 text-xs font-semibold">
-                            <i class="fa-solid fa-trash"></i> Hapus
-                        </button>
-                    </td>
+            tbody.innerHTML = listTransaksi.map((item) => {
+                const keyKamar = `${item.lokasi}-${item.kamar}`;
+                const isLunas = statusKamarMap[keyKamar] === 'Lunas';
+                
+                return `
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-6 py-4 whitespace-nowrap">${item.tanggal}</td>
+                        <td class="px-6 py-4 whitespace-nowrap font-medium text-slate-900">${item.lokasi}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${item.nama}</td>
+                        <td class="px-6 py-4 whitespace-nowrap font-bold text-blue-600">${item.kamar}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${item.periode}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full ${isLunas ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">
+                                ${isLunas ? 'Lunas' : 'Menunggu Konfirmasi'}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            <button onclick="toggleStatus('${item.lokasi}', '${item.kamar}')" 
+                                class="px-3 py-1.5 rounded-lg text-xs font-bold transition ${isLunas ? 'bg-slate-200 text-slate-700 hover:bg-slate-300' : 'bg-emerald-600 text-white hover:bg-emerald-700'}">
+                                <i class="fa-solid ${isLunas ? 'fa-rotate-left' : 'fa-check'} mr-1"></i>
+                                ${isLunas ? 'Tandai Belum Lunas' : 'Set Lunas'}
+                            </button>
+                        </td>
+                    </tr>
                 `;
-                tbody.appendChild(tr);
-            });
+            }).join('');
         }
 
-        function getBadgeStyle(lokasi) {
-            if (lokasi === 'Madani 1') return 'bg-blue-100 text-blue-700';
-            if (lokasi === 'Madani 2') return 'bg-indigo-100 text-indigo-700';
-            return 'bg-pink-100 text-pink-700';
-        }
-
-        function hapusData(id) {
-            if (confirm("Apakah Anda yakin ingin menghapus baris data ini?")) {
-                let data = JSON.parse(localStorage.getItem('database_kost')) || [];
-                data = data.filter(item => item.id !== id);
-                localStorage.setItem('database_kost', JSON.stringify(data));
-                muatDataDatabase();
+        function toggleStatus(lokasi, kamar) {
+            const keyKamar = `${lokasi}-${kamar}`;
+            let statusKamarMap = JSON.parse(localStorage.getItem('status_kamar_kost')) || {};
+            
+            if (statusKamarMap[keyKamar] === 'Lunas') {
+                delete statusKamarMap[keyKamar];
+            } else {
+                statusKamarMap[keyKamar] = 'Lunas';
             }
+
+            localStorage.setItem('status_kamar_kost', JSON.stringify(statusKamarMap));
+            muatDatabase();
         }
+
+        document.addEventListener('DOMContentLoaded', muatDatabase);
     </script>
 </body>
 </html>
