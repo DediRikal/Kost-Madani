@@ -68,7 +68,7 @@
                 <!-- Nomor Kamar -->
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Nomor / Nama Kamar</label>
-                    <input type="text" id="inputKamar" placeholder="Contoh: 01 atau Kamar 09" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
+                    <input type="text" id="inputKamar" placeholder="Contoh: 01, 02, atau 09" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
                 </div>
 
                 <!-- Periode Bulan & Tahun -->
@@ -117,12 +117,17 @@
             e.preventDefault();
 
             const cabang = document.getElementById('inputCabang').value;
-            const nama = document.getElementById('inputNama').value;
-            const kamar = document.getElementById('inputKamar').value;
+            const nama = document.getElementById('inputNama').value.trim();
+            let kamarInput = document.getElementById('inputKamar').value.trim();
             const bulan = document.getElementById('inputBulan').value;
             const tahun = document.getElementById('inputTahun').value;
 
-            // Format tanggal saat ini (DD/MM/YYYY)
+            // Penyeragaman format nomor kamar (misal '1' jadi '01')
+            if (!isNaN(kamarInput) && kamarInput.length === 1) {
+                kamarInput = '0' + kamarInput;
+            }
+
+            // Format tanggal otomatis saat ini (DD/MM/YYYY)
             const today = new Date();
             const tanggalStr = `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`;
 
@@ -132,29 +137,29 @@
                 tanggal: tanggalStr,
                 cabang: cabang,
                 nama: nama,
-                kamar: kamar,
+                kamar: kamarInput,
                 bulan: bulan,
                 tahun: tahun,
                 status: 'Menunggu Konfirmasi'
             };
 
-            // Ambil data lama dari localStorage (menggunakan key 'transaksi_kost')
+            // 1. Ambil data transaksi lama dari localStorage
             let transaksiList = JSON.parse(localStorage.getItem('transaksi_kost')) || [];
 
-            // Tambahkan data baru ke paling atas daftar
+            // 2. Tambahkan data transaksi baru ke paling atas daftar
             transaksiList.unshift(dataBaru);
 
-            // Simpan kembali ke localStorage
-            localStorage.getItem('transaksi_kost');
+            // 3. Simpan kembali daftar yang diperbarui ke localStorage
             localStorage.setItem('transaksi_kost', JSON.stringify(transaksiList));
 
-            // Tampilkan notifikasi sukses & Reset Form
-            document.getElementById('alertSuccess').classList.remove('hidden');
+            // Tampilkan alert notifikasi sukses & reset form
+            const alertBox = document.getElementById('alertSuccess');
+            alertBox.classList.remove('hidden');
             document.getElementById('formPembayaran').reset();
 
             // Sembunyikan notifikasi setelah 4 detik
             setTimeout(() => {
-                document.getElementById('alertSuccess').classList.add('hidden');
+                alertBox.classList.add('hidden');
             }, 4000);
         }
     </script>
