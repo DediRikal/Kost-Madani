@@ -3,21 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kost Madani - Beranda Interaktif</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Kost Madani - Beranda</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts & Font Awesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        .card-hover { transition: all 0.3s ease; }
-        .card-hover:hover { transform: translateY(-5px); }
-    </style>
+    <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
-    <!-- 1. HEADER & NAVIGATION BAR -->
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -32,228 +25,88 @@
         </div>
     </header>
 
-    <!-- MAIN CONTENT CONTAINER -->
-    <main class="flex-grow">
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full space-y-12">
         
-        <!-- 2. HERO SECTION -->
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
-            <div>
-                <span class="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
-                    <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span> Sistem Informasi Kost
-                </span>
-                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mt-4 leading-tight">
-                    Kelola & Cek Pembayaran Kost Madani Lebih Mudah
-                </h1>
-                <p class="text-slate-600 text-lg mt-4 leading-relaxed">
-                    Platform resmi transparansi tagihan, konfirmasi pembayaran bulanan, dan rekap data hunian secara praktis dan aman.
-                </p>
-                <div class="mt-8 flex flex-wrap gap-4">
-                    <a href="pembayaran.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg shadow-blue-500/30 transition duration-200 flex items-center gap-2 transform active:scale-95">
-                        <i class="fa-solid fa-credit-card"></i> Bayar Sekarang
-                    </a>
-                    <a href="https://wa.me/628884316826?text=Halo%20Mas%20Dedi%20Rikal,%20saya%20ingin%20bertanya%20seputar%20Kost%20Madani" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition duration-200 flex items-center gap-2 transform active:scale-95">
-                        <i class="fa-brands fa-whatsapp text-xl"></i> Hubungi WhatsApp
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Interactive Visual Hero Card -->
-            <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden card-hover">
-                <div class="relative z-10">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-lg font-semibold opacity-90">Ringkasan Tagihan</h2>
-                        <span class="bg-emerald-400/20 text-emerald-300 text-xs font-bold px-2.5 py-1 rounded flex items-center gap-1">
-                            <i class="fa-solid fa-bolt text-xs"></i> Update Realtime
-                        </span>
-                    </div>
-                    <p class="text-sm opacity-80">Jatuh Tempo Berikutnya</p>
-                    <p class="text-3xl font-bold mt-1 mb-6">Tanggal 05 Setiap Bulan</p>
-                    
-                    <!-- Quick Copy Account Info -->
-                    <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/10 mb-4">
-                        <p class="text-xs text-blue-100 font-medium mb-1">Rekening Pembayaran (BRI)</p>
-                        <div class="flex justify-between items-center">
-                            <span class="font-mono font-bold tracking-wider" id="no-rek">1234 5678 90</span>
-                            <button onclick="copyRekening()" class="text-xs bg-white text-blue-700 px-3 py-1.5 rounded-md font-semibold hover:bg-blue-50 transition active:scale-95">
-                                <i class="fa-regular fa-copy"></i> <span id="btn-copy-text">Salin</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="border-t border-white/20 pt-4 flex justify-between items-center text-sm">
-                        <span>Metode Pembayaran</span>
-                        <span class="font-medium">QRIS, Transfer Bank</span>
-                    </div>
-                </div>
-            </div>
+        <section class="text-center max-w-2xl mx-auto">
+            <h1 class="text-3xl font-extrabold text-slate-900 sm:text-4xl">Cek Status & Ketersediaan Kamar</h1>
+            <p class="mt-3 text-slate-600 text-sm sm:text-base">Pilih cabang untuk melihat status ketersediaan dan kelunasan pembayaran kamar secara real-time.</p>
         </section>
 
-        <!-- 3. QUICK STATS BAR -->
-        <section class="bg-white border-y border-slate-200 py-10">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 card-hover">
-                    <div class="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-bed"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm text-slate-500 font-medium">Kapasitas Hunian</p>
-                        <p class="text-xl font-bold text-slate-900">18 / 20 Kamar Terisi</p>
-                    </div>
-                </div>
+        <!-- Filter Cabang -->
+        <div class="flex justify-center gap-3 flex-wrap">
+            <button onclick="tampilkanKamar('Madani 1', 9)" id="btn-m1" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-blue-600 text-white shadow-md">Madani 1 (9 Kamar)</button>
+            <button onclick="tampilkanKamar('Madani 2', 10)" id="btn-m2" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-white text-slate-600 border border-slate-200 hover:bg-slate-100">Madani 2 (10 Kamar)</button>
+            <button onclick="tampilkanKamar('Madani Putri', 16)" id="btn-mp" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-white text-slate-600 border border-slate-200 hover:bg-slate-100">Madani Putri (16 Kamar)</button>
+        </div>
 
-                <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 card-hover">
-                    <div class="w-12 h-12 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-circle-check"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm text-slate-500 font-medium">Status Pembayaran</p>
-                        <p class="text-xl font-bold text-slate-900">85% Terverifikasi</p>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 card-hover">
-                    <div class="w-12 h-12 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-headset"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm text-slate-500 font-medium">Layanan Pengelola</p>
-                        <p class="text-xl font-bold text-slate-900">Responsif 24/7</p>
-                    </div>
-                </div>
+        <!-- Legend Status -->
+        <div class="flex justify-center gap-6 text-xs font-semibold text-slate-600">
+            <div class="flex items-center gap-2">
+                <span class="w-3.5 h-3.5 rounded-full bg-emerald-500 inline-block"></span> Kosong / Belum Lunas
             </div>
-        </section>
-
-        <!-- 4. INTERACTIVE SEARCH & MODAL -->
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div class="bg-slate-900 text-white rounded-2xl p-8 md:p-12 text-center max-w-3xl mx-auto shadow-2xl relative overflow-hidden">
-                <h2 class="text-2xl md:text-3xl font-bold">Cek Status Kamar Anda</h2>
-                <p class="text-slate-400 mt-2 text-sm">Masukkan nomor kamar Anda untuk melihat status tagihan bulan ini secara langsung.</p>
-                
-                <form onsubmit="cekKamar(event)" class="mt-6 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                    <input type="text" id="inputKamar" placeholder="Contoh: 01, 02, 03..." required class="px-4 py-3 rounded-lg text-slate-900 flex-grow focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition active:scale-95">
-                        <i class="fa-solid fa-magnifying-glass"></i> Cek Status
-                    </button>
-                </form>
+            <div class="flex items-center gap-2">
+                <span class="w-3.5 h-3.5 rounded-full bg-rose-500 inline-block"></span> Terisi / Lunas
             </div>
-        </section>
+        </div>
 
-        <!-- 5. FAQ INTERAKTIF (ACCORDION) -->
-        <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-            <h2 class="text-2xl font-bold text-center text-slate-900 mb-8">Pertanyaan Umum (FAQ)</h2>
-            
-            <div class="space-y-4">
-                <div class="border border-slate-200 rounded-xl bg-white overflow-hidden">
-                    <button onclick="toggleFaq(1)" class="w-full text-left px-6 py-4 font-semibold text-slate-900 flex justify-between items-center hover:bg-slate-50">
-                        <span>Bagaimana cara mengonfirmasi pembayaran?</span>
-                        <i id="faq-icon-1" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
-                    </button>
-                    <div id="faq-ans-1" class="hidden px-6 pb-4 text-slate-600 text-sm border-t border-slate-100 pt-3">
-                        Anda dapat masuk ke halaman <strong>Pembayaran</strong>, lalu unggah resi/bukti transfer bank. Pengelola akan memverifikasi dalam waktu 1x24 jam.
-                    </div>
-                </div>
-
-                <div class="border border-slate-200 rounded-xl bg-white overflow-hidden">
-                    <button onclick="toggleFaq(2)" class="w-full text-left px-6 py-4 font-semibold text-slate-900 flex justify-between items-center hover:bg-slate-50">
-                        <span>Kapan batas waktu pembayaran bulanan?</span>
-                        <i id="faq-icon-2" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
-                    </button>
-                    <div id="faq-ans-2" class="hidden px-6 pb-4 text-slate-600 text-sm border-t border-slate-100 pt-3">
-                        Pembayaran dilakukan paling lambat <strong>tanggal 05</strong> di setiap bulannya.
-                    </div>
-                </div>
-            </div>
-        </section>
-
+        <!-- Grid Kamar -->
+        <div id="grid-kamar" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-w-5xl mx-auto">
+            <!-- Render via JS -->
+        </div>
     </main>
 
-    <!-- MODAL POPUP RESULTS -->
-    <div id="resultModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl relative animate-fade-in text-center">
-            <div id="modalIcon" class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl mb-4"></div>
-            <h3 id="modalTitle" class="text-xl font-bold text-slate-900"></h3>
-            <p id="modalDesc" class="text-sm text-slate-600 mt-2"></p>
-            <div class="mt-6">
-                <button onclick="closeModal()" class="w-full bg-slate-900 text-white font-semibold py-2.5 rounded-lg hover:bg-slate-800 transition">Tutup</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 6. FOOTER -->
-    <footer class="bg-white border-t border-slate-200 py-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-500 text-sm">
-            <p>© 2026 Kost Madani. Sistem Informasi Pembayaran Kost.</p>
-        </div>
-    </footer>
-
-    <!-- INTERACTIVE JAVASCRIPT -->
     <script>
-        // Data Simulasi Kamar
-        const dummyDatabase = {
-            "01": { nama: "Penghuni Kamar 01", status: "LUNAS", bulan: "Agustus 2026" },
-            "02": { nama: "Penghuni Kamar 02", status: "BELUM LUNAS", bulan: "Agustus 2026" },
-            "03": { nama: "Penghuni Kamar 03", status: "LUNAS", bulan: "Agustus 2026" },
-            "04": { nama: "Penghuni Kamar 04", status: "PENDING", bulan: "Agustus 2026" }
-        };
+        let cabangAktif = 'Madani 1';
+        let totalKamarAktif = 9;
 
-        // Function Cek Kamar
-        function cekKamar(e) {
-            e.preventDefault();
-            const input = document.getElementById('inputKamar').value.trim();
-            const modal = document.getElementById('resultModal');
-            const icon = document.getElementById('modalIcon');
-            const title = document.getElementById('modalTitle');
-            const desc = document.getElementById('modalDesc');
+        function tampilkanKamar(cabang, totalKamar) {
+            cabangAktif = cabang;
+            totalKamarAktif = totalKamar;
+            
+            // Update Tampilan Tombol Tab
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-white text-slate-600 border border-slate-200 hover:bg-slate-100";
+            });
+            if(cabang === 'Madani 1') document.getElementById('btn-m1').className = "tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-blue-600 text-white shadow-md";
+            if(cabang === 'Madani 2') document.getElementById('btn-m2').className = "tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-indigo-600 text-white shadow-md";
+            if(cabang === 'Madani Putri') document.getElementById('btn-mp').className = "tab-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-pink-600 text-white shadow-md";
 
-            const data = dummyDatabase[input];
+            const statusKamarMap = JSON.parse(localStorage.getItem('status_kamar_kost')) || {};
+            const container = document.getElementById('grid-kamar');
+            container.innerHTML = '';
 
-            if (data) {
-                if (data.status === "LUNAS") {
-                    icon.className = "w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl mb-4 bg-emerald-100 text-emerald-600";
-                    icon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
-                    title.innerText = `Kamar ${input} - LUNAS`;
-                    desc.innerText = `Tagihan bulan ${data.bulan} sudah terverifikasi. Terima kasih!`;
-                } else if (data.status === "PENDING") {
-                    icon.className = "w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl mb-4 bg-amber-100 text-amber-600";
-                    icon.innerHTML = '<i class="fa-solid fa-clock"></i>';
-                    title.innerText = `Kamar ${input} - Menunggu Verifikasi`;
-                    desc.innerText = `Bukti pembayaran bulan ${data.bulan} sedang diperiksa oleh pengelola.`;
-                } else {
-                    icon.className = "w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl mb-4 bg-red-100 text-red-600";
-                    icon.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i>';
-                    title.innerText = `Kamar ${input} - BELUM LUNAS`;
-                    desc.innerText = `Tagihan bulan ${data.bulan} belum dikonfirmasi. Silakan lakukan pembayaran.`;
-                }
-            } else {
-                icon.className = "w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl mb-4 bg-slate-100 text-slate-600";
-                icon.innerHTML = '<i class="fa-solid fa-question"></i>';
-                title.innerText = "Data Tidak Ditemukan";
-                desc.innerText = `Nomor kamar ${input} tidak terdaftar. Coba masukkan nomor kamar 01 sampai 04.`;
+            for (let i = 1; i <= totalKamar; i++) {
+                const nomerkamar = `Kamar ${i < 10 ? '0' + i : i}`;
+                const keyKamar = `${cabang}-${nomerkamar}`;
+                const isLunas = statusKamarMap[keyKamar] === 'Lunas';
+
+                const card = document.createElement('div');
+                card.className = `p-4 rounded-xl border flex flex-col justify-between h-28 transition shadow-sm ${
+                    isLunas 
+                        ? 'bg-rose-50 border-rose-200 text-rose-900' 
+                        : 'bg-emerald-50 border-emerald-200 text-emerald-900'
+                }`;
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-base">${nomerkamar}</span>
+                        <span class="w-3 h-3 rounded-full ${isLunas ? 'bg-rose-500' : 'bg-emerald-500'}"></span>
+                    </div>
+                    <div>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-md ${
+                            isLunas ? 'bg-rose-200 text-rose-800' : 'bg-emerald-200 text-emerald-800'
+                        }">
+                            ${isLunas ? 'Lunas / Terisi' : 'Tersedia'}
+                        </span>
+                    </div>
+                `;
+                container.appendChild(card);
             }
-
-            modal.classList.remove('hidden');
         }
 
-        function closeModal() {
-            document.getElementById('resultModal').classList.add('hidden');
-        }
-
-        // Function Copy Rekening
-        function copyRekening() {
-            const noRek = document.getElementById('no-rek').innerText;
-            navigator.clipboard.writeText(noRek.replace(/\s+/g, ''));
-            const btnText = document.getElementById('btn-copy-text');
-            btnText.innerText = "Tersalin!";
-            setTimeout(() => { btnText.innerText = "Salin"; }, 2000);
-        }
-
-        // Function Toggle FAQ
-        function toggleFaq(id) {
-            const ans = document.getElementById(`faq-ans-${id}`);
-            const icon = document.getElementById(`faq-icon-${id}`);
-            ans.classList.toggle('hidden');
-            icon.classList.toggle('rotate-180');
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            tampilkanKamar('Madani 1', 9);
+        });
     </script>
 </body>
 </html>
