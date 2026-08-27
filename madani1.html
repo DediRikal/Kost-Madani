@@ -4,18 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kost Madani 1 - Form Pembayaran</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts & Font Awesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
+    <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
-    <!-- HEADER & NAVIGATION BAR -->
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -30,17 +25,12 @@
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
     <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-        
-        <!-- TOMBOL KEMBALI -->
         <a href="pembayaran.html" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 mb-6 transition">
             <i class="fa-solid fa-arrow-left"></i> Kembali ke Pilihan Cabang
         </a>
 
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8 grid md:grid-cols-2 gap-8 items-start">
-            
-            <!-- REKENING MADANI 1 -->
             <div>
                 <span class="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Cabang Madani 1</span>
                 <h1 class="text-2xl font-extrabold text-slate-900 mt-2 mb-4">Pembayaran Madani 1</h1>
@@ -50,7 +40,6 @@
                         <p class="text-xs text-slate-500 font-medium">Bank Tujuan</p>
                         <p class="text-lg font-bold text-slate-900">Bank BCA</p>
                     </div>
-
                     <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
                         <p class="text-xs text-slate-500 font-medium">Nomor Rekening</p>
                         <div class="flex justify-between items-center mt-1">
@@ -60,7 +49,6 @@
                             </button>
                         </div>
                     </div>
-
                     <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
                         <p class="text-xs text-slate-500 font-medium">Atas Nama (Pengelola)</p>
                         <p class="text-base font-bold text-slate-900">Dedi Rikal</p>
@@ -68,7 +56,6 @@
                 </div>
             </div>
 
-            <!-- FORMULIR INPUT MADANI 1 -->
             <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
                 <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
                     <i class="fa-solid fa-pen-to-square text-blue-600"></i> Form Data Penghuni
@@ -79,17 +66,14 @@
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap</label>
                         <input type="text" id="nama" placeholder="Masukkan nama Anda" required class="w-full px-3 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Nomor Kamar</label>
                         <input type="text" id="kamar" placeholder="Contoh: Kamar 04" required class="w-full px-3 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Pembayaran untuk Bulan & Tahun</label>
                         <input type="month" id="periode" required class="w-full px-3 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Unggah Bukti Pembayaran</label>
                         <input type="file" id="bukti" accept="image/*,.pdf" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 bg-white border border-slate-300 rounded-lg p-1">
@@ -101,18 +85,15 @@
                     </button>
                 </form>
             </div>
-
         </div>
     </main>
 
-    <!-- FOOTER -->
     <footer class="bg-white border-t border-slate-200 py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-500 text-sm">
             <p>© 2026 Kost Madani. Sistem Informasi Pembayaran Kost.</p>
         </div>
     </footer>
 
-    <!-- SCRIPT LOGIKA -->
     <script>
         function copyRek() {
             const rekText = document.getElementById('no-rekening').innerText.replace(/\s+/g, '');
@@ -133,10 +114,22 @@
             const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
             const periodeFormatted = `${namaBulan[parseInt(bulan) - 1]} ${tahun}`;
 
-            const pesanWA = `Halo Mas Dedi Rikal,%0A%0ASaya mau konfirmasi pembayaran kost:%0A- *Lokasi Kost:* Madani 1%0A- *Nama:* ${nama}%0A- *Nomor Kamar:* ${kamar}%0A- *Periode:* ${periodeFormatted}%0A%0ABukti transfer sudah saya lampirkan di pesan ini.`;
+            // Simpan ke Database (localStorage)
+            const transaksiBaru = {
+                id: Date.now(),
+                tanggal: new Date().toLocaleDateString('id-ID'),
+                lokasi: 'Madani 1',
+                nama: nama,
+                kamar: kamar,
+                periode: periodeFormatted
+            };
+            let listTransaksi = JSON.parse(localStorage.getItem('database_kost')) || [];
+            listTransaksi.push(transaksiBaru);
+            localStorage.setItem('database_kost', JSON.stringify(listTransaksi));
 
-            const urlWA = `https://wa.me/628884316826?text=${pesanWA}`;
-            window.open(urlWA, '_blank');
+            // Teruskan ke WhatsApp
+            const pesanWA = `Halo Mas Dedi Rikal,%0A%0ASaya mau konfirmasi pembayaran kost:%0A- *Lokasi Kost:* Madani 1%0A- *Nama:* ${nama}%0A- *Nomor Kamar:* ${kamar}%0A- *Periode:* ${periodeFormatted}%0A%0ABukti transfer sudah saya lampirkan di pesan ini.`;
+            window.open(`https://wa.me/628884316826?text=${pesanWA}`, '_blank');
         }
     </script>
 </body>
