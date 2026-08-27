@@ -75,7 +75,7 @@
                     <i class="fa-solid fa-circle-check text-emerald-600 text-xl"></i>
                     <div>
                         <strong class="font-bold">Pembayaran Berhasil Dikirim!</strong>
-                        <p class="text-xs text-emerald-700">Data telah masuk ke Database Admin. Menunggu konfirmasi kelunasan.</p>
+                        <p class="text-xs text-emerald-700">Data & bukti transfer telah disimpan ke Database Admin. Menunggu konfirmasi kelunasan.</p>
                     </div>
                 </div>
 
@@ -128,6 +128,12 @@
                             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Tahun</label>
                             <input type="number" id="inputTahun" value="2026" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
                         </div>
+                    </div>
+
+                    <!-- UPLOAD BUKTI PEMBAYARAN -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Unggah Bukti Pembayaran (Resi/Transfer)</label>
+                        <input type="file" id="inputBukti" accept="image/*,.pdf" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 bg-white border border-slate-300 rounded-xl p-1.5 focus:outline-none">
                     </div>
 
                     <!-- Submit Button -->
@@ -187,8 +193,18 @@
             setTimeout(() => { copyBtnText.innerText = "Salin"; }, 2000);
         }
 
+        // Helper fungsi konversi File ke string Base64 agar bisa masuk localStorage
+        function convertFileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
         // Fungsi Simpan Form Ke Database LocalStorage
-        function simpanPembayaran(e) {
+        async function simpanPembayaran(e) {
             e.preventDefault();
 
             const cabang = document.getElementById('inputCabang').value;
@@ -196,6 +212,16 @@
             const kamar = document.getElementById('inputKamar').value;
             const bulan = document.getElementById('inputBulan').value;
             const tahun = document.getElementById('inputTahun').value;
+            const fileBukti = document.getElementById('inputBukti').files[0];
+
+            let buktiBase64 = '';
+            if (fileBukti) {
+                try {
+                    buktiBase64 = await convertFileToBase64(fileBukti);
+                } catch (err) {
+                    console.error("Gagal membaca file bukti pembayaran", err);
+                }
+            }
 
             // Format tanggal saat ini (DD/MM/YYYY)
             const today = new Date();
@@ -210,6 +236,7 @@
                 kamar: kamar,
                 bulan: bulan,
                 tahun: tahun,
+                bukti: buktiBase64, // Menyimpan file bukti transfer
                 status: 'Menunggu Konfirmasi'
             };
 
