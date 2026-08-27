@@ -238,14 +238,16 @@
         }
 
         function renderKamar() {
-            const statusKamarMap = JSON.parse(localStorage.getItem('status_kamar_kost')) || {};
+            // Menggunakan key localStorage yang disamakan dengan database: 'ketersediaan_kamar_kost'
+            const statusKamarMap = JSON.parse(localStorage.getItem('ketersediaan_kamar_kost')) || {};
             const container = document.getElementById('grid-kamar');
             container.innerHTML = '';
 
             for (let i = 1; i <= totalKamarAktif; i++) {
                 const nomorKamar = `Kamar ${i < 10 ? '0' + i : i}`;
                 const keyKamar = `${cabangAktif}-${nomorKamar}`;
-                const isLunas = statusKamarMap[keyKamar] === 'Lunas';
+                const statusKamar = statusKamarMap[keyKamar] || 'Tersedia';
+                const isLunas = statusKamar === 'Terisi' || statusKamar === 'Terisi / Lunas';
 
                 const card = document.createElement('div');
                 card.className = `p-4 rounded-2xl border transition shadow-sm flex flex-col justify-between h-32 ${
@@ -263,7 +265,7 @@
                         <span class="text-xs font-bold px-3 py-1.5 rounded-xl inline-block ${
                             isLunas ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'
                         }">
-                            ${isLunas ? 'Terisi / Lunas' : 'Tersedia'}
+                            ${statusKamar}
                         </span>
                     </div>
                 `;
@@ -280,22 +282,23 @@
             const title = document.getElementById('modalTitle');
             const desc = document.getElementById('modalDesc');
 
-            const statusKamarMap = JSON.parse(localStorage.getItem('status_kamar_kost')) || {};
+            const statusKamarMap = JSON.parse(localStorage.getItem('ketersediaan_kamar_kost')) || {};
             const nomorFormatted = inputVal.length === 1 ? '0' + inputVal : inputVal;
             const keyKamar = `${cabangAktif}-Kamar ${nomorFormatted}`;
-            const isLunas = statusKamarMap[keyKamar] === 'Lunas';
+            const statusKamar = statusKamarMap[keyKamar] || 'Tersedia';
+            const isLunas = statusKamar === 'Terisi' || statusKamar === 'Terisi / Lunas';
 
             if (parseInt(inputVal) > 0 && parseInt(inputVal) <= totalKamarAktif) {
                 if (isLunas) {
                     icon.className = "w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl mb-4 bg-rose-100 text-rose-600";
                     icon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
                     title.innerText = `${cabangAktif} - Kamar ${nomorFormatted}`;
-                    desc.innerText = `Status: Terisi / Lunas. Pembayaran telah terverifikasi oleh pengelola.`;
+                    desc.innerText = `Status: ${statusKamar}. Kamar ini sedang terisi.`;
                 } else {
                     icon.className = "w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl mb-4 bg-emerald-100 text-emerald-600";
                     icon.innerHTML = '<i class="fa-solid fa-door-open"></i>';
                     title.innerText = `${cabangAktif} - Kamar ${nomorFormatted}`;
-                    desc.innerText = `Status: Tersedia. Kamar ini masih kosong atau belum terbayar.`;
+                    desc.innerText = `Status: Tersedia. Kamar ini masih kosong.`;
                 }
             } else {
                 icon.className = "w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl mb-4 bg-slate-100 text-slate-600";
@@ -335,7 +338,7 @@
 
         // Event listener untuk mendeteksi perubahan data dari tab/halaman lain secara real-time
         window.addEventListener('storage', (event) => {
-            if (event.key === 'status_kamar_kost') {
+            if (event.key === 'ketersediaan_kamar_kost') {
                 renderKamar();
             }
         });
