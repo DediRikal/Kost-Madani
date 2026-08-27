@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kost Madani - Pembayaran</title>
+    <title>Kost Madani - Form Pembayaran</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts & Font Awesome Icons -->
@@ -15,7 +15,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
-    <!-- 1. HEADER & NAVIGATION BAR -->
+    <!-- HEADER & NAVIGATION BAR -->
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -30,185 +30,131 @@
         </div>
     </header>
 
-    <!-- MAIN CONTENT CONTAINER -->
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        
-        <!-- JUDUL HALAMAN -->
-        <div class="text-center max-w-2xl mx-auto mb-10">
-            <h1 class="text-3xl font-extrabold text-slate-900">Pembayaran Tagihan Kost</h1>
-            <p class="text-slate-600 mt-2">Pilih lokasi kost Anda, lalu isi formulir pembayaran di bawah ini secara lengkap.</p>
-        </div>
+    <!-- MAIN FORM CONTAINER -->
+    <main class="flex-grow max-w-2xl mx-auto px-4 sm:px-6 py-10 w-full">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 p-6 sm:p-8">
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-slate-900">Konfirmasi Pembayaran</h1>
+                <p class="text-slate-500 text-sm mt-1">Isi formulir di bawah ini untuk memperbarui status transaksi pembayaran kamu.</p>
+            </div>
 
-        <!-- 2. PILIHAN TOMBOL LOKASI KOST -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-10">
-            <button onclick="selectKost('Madani 1')" id="btn-madani1" class="kost-btn bg-blue-600 text-white font-bold p-5 rounded-2xl border-2 border-blue-600 shadow-lg transition flex items-center justify-center gap-3">
-                <i class="fa-solid fa-house-user text-xl"></i>
-                <span>Madani 1</span>
-            </button>
-
-            <button onclick="selectKost('Madani 2')" id="btn-madani2" class="kost-btn bg-white text-slate-700 font-bold p-5 rounded-2xl border-2 border-slate-200 hover:border-blue-600 shadow-sm transition flex items-center justify-center gap-3">
-                <i class="fa-solid fa-house-flag text-xl"></i>
-                <span>Madani 2</span>
-            </button>
-
-            <button onclick="selectKost('Madani Putri')" id="btn-madaniputri" class="kost-btn bg-white text-slate-700 font-bold p-5 rounded-2xl border-2 border-slate-200 hover:border-pink-500 shadow-sm transition flex items-center justify-center gap-3">
-                <i class="fa-solid fa-venus text-xl text-pink-500"></i>
-                <span>Madani Putri</span>
-            </button>
-        </div>
-
-        <!-- 3. FORMULIR PEMBAYARAN & DETAIL REKENING -->
-        <div class="max-w-4xl mx-auto bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8 grid md:grid-cols-2 gap-8 items-start">
-            
-            <!-- INFORMASI REKENING -->
-            <div>
-                <div class="inline-block bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-3" id="badge-lokasi">
-                    Unit Terpilih: Madani 1
-                </div>
-                <h2 class="text-xl font-bold text-slate-900 mb-4">Informasi Rekening</h2>
-                
-                <div class="space-y-4">
-                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
-                        <p class="text-xs text-slate-500 font-medium">Bank Tujuan</p>
-                        <p class="text-lg font-bold text-slate-900">Bank BCA</p>
-                    </div>
-
-                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
-                        <p class="text-xs text-slate-500 font-medium">Nomor Rekening</p>
-                        <div class="flex justify-between items-center mt-1">
-                            <span class="font-mono text-xl font-extrabold text-blue-600 tracking-wider" id="no-rekening">1234 5678 90</span>
-                            <button onclick="copyRek()" class="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-slate-100 transition active:scale-95">
-                                <i class="fa-regular fa-copy"></i> <span id="text-copy">Salin</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
-                        <p class="text-xs text-slate-500 font-medium">Atas Nama (Pengelola)</p>
-                        <p class="text-base font-bold text-slate-900">Dedi Rikal</p>
-                    </div>
+            <!-- Alert Notifikasi Sukses -->
+            <div id="alertSuccess" class="hidden mb-6 bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-xl text-sm flex items-center gap-3">
+                <i class="fa-solid fa-circle-check text-emerald-600 text-xl"></i>
+                <div>
+                    <strong class="font-bold">Pembayaran Berhasil Dikirim!</strong>
+                    <p class="text-xs text-emerald-700">Data telah masuk ke Database Admin. Menunggu konfirmasi kelunasan.</p>
                 </div>
             </div>
 
-            <!-- FORMULIR INPUT DATA PENGHUNI -->
-            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-                <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-                    <i class="fa-solid fa-pen-to-square text-blue-600"></i> Form Data Konfirmasi
-                </h3>
-                
-                <form id="formKost" onsubmit="kirimForm(event)" class="space-y-4">
-                    <!-- INPUT NAMA -->
+            <form id="formPembayaran" onsubmit="simpanPembayaran(event)" class="space-y-5">
+                <!-- Cabang Kost -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Pilih Cabang Kost</label>
+                    <select id="inputCabang" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 bg-white">
+                        <option value="" disabled selected>-- Pilih Cabang --</option>
+                        <option value="Madani 1">Madani 1</option>
+                        <option value="Madani 2">Madani 2</option>
+                        <option value="Madani Putri">Madani Putri</option>
+                    </select>
+                </div>
+
+                <!-- Nama Penghuni -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Nama Penghuni</label>
+                    <input type="text" id="inputNama" placeholder="Masukkan nama lengkap" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
+                </div>
+
+                <!-- Nomor Kamar -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Nomor / Nama Kamar</label>
+                    <input type="text" id="inputKamar" placeholder="Contoh: 01 atau Kamar 09" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
+                </div>
+
+                <!-- Periode Bulan & Tahun -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap</label>
-                        <input type="text" id="nama" placeholder="Masukkan nama Anda" required class="w-full px-3 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Bulan Pembayaran</label>
+                        <select id="inputBulan" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 bg-white">
+                            <option value="Januari">Januari</option>
+                            <option value="Februari">Februari</option>
+                            <option value="Maret">Maret</option>
+                            <option value="April">April</option>
+                            <option value="Mei">Mei</option>
+                            <option value="Juni">Juni</option>
+                            <option value="Juli">Juli</option>
+                            <option value="Agustus">Agustus</option>
+                            <option value="September">September</option>
+                            <option value="Oktober">Oktober</option>
+                            <option value="November">November</option>
+                            <option value="Desember">Desember</option>
+                        </select>
                     </div>
-
-                    <!-- INPUT NOMOR KAMAR -->
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Nomor Kamar</label>
-                        <input type="text" id="kamar" placeholder="Contoh: Kamar 04" required class="w-full px-3 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Tahun</label>
+                        <input type="number" id="inputTahun" value="2026" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
                     </div>
+                </div>
 
-                    <!-- INPUT BULAN & TAHUN -->
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Pembayaran untuk Bulan & Tahun</label>
-                        <input type="month" id="periode" required class="w-full px-3 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
-                    </div>
-
-                    <!-- UPLOAD BUKTI PEMBAYARAN -->
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Unggah Bukti Pembayaran (Resi/Transfer)</label>
-                        <input type="file" id="bukti" accept="image/*,.pdf" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 bg-white border border-slate-300 rounded-lg p-1">
-                    </div>
-
-                    <!-- TOMBOL KIRIM -->
-                    <button type="submit" class="w-full mt-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl shadow-md transition duration-200 flex items-center justify-center gap-2 active:scale-95">
-                        <i class="fa-brands fa-whatsapp text-xl"></i>
-                        <span>Kirim Konfirmasi via WA</span>
-                    </button>
-                </form>
-            </div>
-
+                <!-- Submit Button -->
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-500/30 transition active:scale-95 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Kirim Konfirmasi Pembayaran
+                </button>
+            </form>
         </div>
-
     </main>
 
-    <!-- 4. FOOTER -->
-    <footer class="bg-white border-t border-slate-200 py-6">
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-500 text-sm">
             <p>© 2026 Kost Madani. Sistem Informasi Pembayaran Kost.</p>
         </div>
     </footer>
 
-    <!-- SCRIPT LOGIKA FORMULIR -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        let selectedKostUnit = "Madani 1";
-
-        function selectKost(unitName) {
-            selectedKostUnit = unitName;
-            document.getElementById('badge-lokasi').innerText = `Unit Terpilih: ${unitName}`;
-
-            // Reset Button Style
-            document.getElementById('btn-madani1').className = "kost-btn bg-white text-slate-700 font-bold p-5 rounded-2xl border-2 border-slate-200 hover:border-blue-600 shadow-sm transition flex items-center justify-center gap-3";
-            document.getElementById('btn-madani2').className = "kost-btn bg-white text-slate-700 font-bold p-5 rounded-2xl border-2 border-slate-200 hover:border-blue-600 shadow-sm transition flex items-center justify-center gap-3";
-            document.getElementById('btn-madaniputri').className = "kost-btn bg-white text-slate-700 font-bold p-5 rounded-2xl border-2 border-slate-200 hover:border-pink-500 shadow-sm transition flex items-center justify-center gap-3";
-
-            // Set Active Button Style
-            if (unitName === 'Madani 1') {
-                document.getElementById('btn-madani1').className = "kost-btn bg-blue-600 text-white font-bold p-5 rounded-2xl border-2 border-blue-600 shadow-lg transition flex items-center justify-center gap-3";
-            } else if (unitName === 'Madani 2') {
-                document.getElementById('btn-madani2').className = "kost-btn bg-blue-600 text-white font-bold p-5 rounded-2xl border-2 border-blue-600 shadow-lg transition flex items-center justify-center gap-3";
-            } else if (unitName === 'Madani Putri') {
-                document.getElementById('btn-madaniputri').className = "kost-btn bg-pink-500 text-white font-bold p-5 rounded-2xl border-2 border-pink-500 shadow-lg transition flex items-center justify-center gap-3";
-            }
-        }
-
-        function copyRek() {
-            const rekText = document.getElementById('no-rekening').innerText.replace(/\s+/g, '');
-            navigator.clipboard.writeText(rekText);
-            const copyBtn = document.getElementById('text-copy');
-            copyBtn.innerText = "Tersalin!";
-            setTimeout(() => { copyBtn.innerText = "Salin"; }, 2000);
-        }
-
-        function kirimForm(e) {
+        function simpanPembayaran(e) {
             e.preventDefault();
-            
-            const nama = document.getElementById('nama').value;
-            const kamar = document.getElementById('kamar').value;
-            const periode = document.getElementById('periode').value; // Format: YYYY-MM
-            
-            // Format teks bulan & tahun agar lebih rapi (misal: "2026-08" menjadi "Agustus 2026")
-            const [tahun, bulan] = periode.split('-');
-            const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-            const bulanStr = namaBulan[parseInt(bulan) - 1];
-            const periodeFormatted = `${bulanStr} ${tahun}`;
 
-            // Tanggal Transaksi Hari Ini
+            const cabang = document.getElementById('inputCabang').value;
+            const nama = document.getElementById('inputNama').value;
+            const kamar = document.getElementById('inputKamar').value;
+            const bulan = document.getElementById('inputBulan').value;
+            const tahun = document.getElementById('inputTahun').value;
+
+            // Format tanggal saat ini (DD/MM/YYYY)
             const today = new Date();
             const tanggalStr = `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`;
 
-            // 1. PROSES SIMPAN KE DATABASE (LOCALSTORAGE)
+            // Buat objek data transaksi baru
             const dataBaru = {
                 id: 'trx_' + Date.now(),
                 tanggal: tanggalStr,
-                cabang: selectedKostUnit,
+                cabang: cabang,
                 nama: nama,
                 kamar: kamar,
-                bulan: bulanStr,
+                bulan: bulan,
                 tahun: tahun,
                 status: 'Menunggu Konfirmasi'
             };
 
+            // Ambil data lama dari localStorage
             let transaksiList = JSON.parse(localStorage.getItem('transaksi_kost')) || [];
+
+            // Tambahkan data baru ke paling atas daftar
             transaksiList.unshift(dataBaru);
+
+            // Simpan data yang sudah diperbarui ke localStorage
             localStorage.setItem('transaksi_kost', JSON.stringify(transaksiList));
 
-            // 2. SUSUN TEKS & BUKA WHATSAPP
-            const pesanWA = `Halo Mas Dedi Rikal,%0A%0ASaya mau konfirmasi pembayaran kost:%0A- *Lokasi Kost:* ${selectedKostUnit}%0A- *Nama:* ${nama}%0A- *Nomor Kamar:* ${kamar}%0A- *Periode:* ${periodeFormatted}%0A%0ABukti transfer sudah saya lampirkan di pesan ini.`;
+            // Tampilkan notifikasi sukses & Reset Form
+            document.getElementById('alertSuccess').classList.remove('hidden');
+            document.getElementById('formPembayaran').reset();
 
-            const urlWA = `https://wa.me/628884316826?text=${pesanWA}`;
-            window.open(urlWA, '_blank');
+            // Sembunyikan notifikasi setelah 4 detik
+            setTimeout(() => {
+                document.getElementById('alertSuccess').classList.add('hidden');
+            }, 4000);
         }
     </script>
 </body>
