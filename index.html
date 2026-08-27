@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kost Madani - Beranda</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- 1. HEADER & NAVIGATION BAR -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-building-user text-blue-600 text-2xl"></i>
+                <span class="font-bold text-xl tracking-tight text-slate-900">Kost Madani</span>
+            </div>
+            <nav class="flex gap-6">
+                <a href="index.html" class="text-blue-600 font-semibold">Beranda</a>
+                <a href="pembayaran.html" class="text-slate-600 hover:text-blue-600 font-medium transition">Pembayaran</a>
+                <a href="database.html" class="text-slate-600 hover:text-blue-600 font-medium transition">Database</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow">
+        
+        <!-- 2. HERO SECTION -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <span class="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Sistem Informasi Kost</span>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mt-4 leading-tight">
+                    Kelola & Cek Pembayaran Kost Madani Lebih Mudah
+                </h1>
+                <p class="text-slate-600 text-lg mt-4 leading-relaxed">
+                    Platform resmi transparansi tagihan, konfirmasi pembayaran bulanan, dan rekap data hunian secara praktis dan aman.
+                </p>
+                <div class="mt-8 flex flex-wrap gap-4">
+                    <a href="pembayaran.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg shadow-blue-500/30 transition duration-200 flex items-center gap-2">
+                        <i class="fa-solid fa-credit-card"></i> Bayar Sekarang
+                    </a>
+                    <a href="database.html" class="bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-semibold px-6 py-3 rounded-lg transition duration-200 flex items-center gap-2">
+                        <i class="fa-solid fa-database"></i> Lihat Database
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Visual Hero Card -->
+            <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden">
+                <div class="relative z-10">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-lg font-semibold opacity-90">Ringkasan Tagihan</h2>
+                        <span class="bg-emerald-400/20 text-emerald-300 text-xs font-bold px-2.5 py-1 rounded">Update Realtime</span>
+                    </div>
+                    <p class="text-sm opacity-80">Jatuh Tempo Berikutnya</p>
+                    <p class="text-3xl font-bold mt-1 mb-6">Tanggal 05 Setiap Bulan</p>
+                    <div class="border-t border-white/20 pt-4 flex justify-between items-center text-sm">
+                        <span>Metode Pembayaran</span>
+                        <span class="font-medium">QRIS, Transfer Bank</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. QUICK STATS BAR -->
+        <section class="bg-white border-y border-slate-200 py-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
+                    <div class="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-bed"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-slate-500 font-medium">Kapasitas Hunian</p>
+                        <p class="text-xl font-bold text-slate-900">18 / 20 Kamar Terisi</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-slate-500 font-medium">Status Pembayaran</p>
+                        <p class="text-xl font-bold text-slate-900">85% Terverifikasi</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
+                    <div class="w-12 h-12 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-slate-500 font-medium">Layanan Pengelola</p>
+                        <p class="text-xl font-bold text-slate-900">Responsif 24/7</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. FEATURES HIGHLIGHT -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <h2 class="text-3xl font-bold text-slate-900">Kemudahan dalam Satu Layanan</h2>
+                <p class="text-slate-600 mt-2">Sistem ini dirancang untuk memudahkan penghuni dan pengelola Kost Madani.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-4">
+                        <i class="fa-solid fa-upload"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Upload Bukti Praktis</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Kirimkan konfirmasi transfer pembayaran kapan saja tanpa perlu bertatap muka langsung.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-4">
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Rekap Riwayat Terbuka</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Pantau terus status verifikasi pembayaran Anda yang tersimpan di sistem database secara transparan.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-4">
+                        <i class="fa-solid fa-bell"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Bebas Denda Keterlambatan</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Akses cepat informasi jatuh tempo membuat Anda terhindar dari keterlambatan pembayaran.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. QUICK CHECK STATUS -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+            <div class="bg-slate-900 text-white rounded-2xl p-8 md:p-12 text-center max-w-3xl mx-auto">
+                <h2 class="text-2xl md:text-3xl font-bold">Cek Status Kamar Anda</h2>
+                <p class="text-slate-400 mt-2 text-sm">Masukkan nomor kamar untuk melihat ringkasan status tagihan bulan ini.</p>
+                
+                <form onsubmit="event.preventDefault(); alert('Silakan buka halaman Database untuk melihat detail lengkap!');" class="mt-6 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                    <input type="text" placeholder="Contoh: Kamar 04" required class="px-4 py-3 rounded-lg text-slate-900 flex-grow focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition">
+                        Cek Status
+                    </button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 6. FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-500 text-sm">
+            <p>© 2026 Kost Madani. Sistem Informasi Pembayaran Kost.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
