@@ -95,10 +95,8 @@
     </footer>
 
     <script>
-        // Ubah PIN Admin di bawah ini sesuai keinginan Anda
         const PIN_BENAR = "123456"; 
 
-        // Cek apakah admin sudah login sebelumnya (dalam sesi browser ini)
         window.onload = function() {
             if (sessionStorage.getItem('admin_login') === 'true') {
                 tampilkanDashboard();
@@ -143,7 +141,6 @@
 
             emptyState.classList.add('hidden');
             
-            // Urutkan data agar yang terbaru berada di paling atas
             const dataUrut = [...data].reverse();
 
             dataUrut.forEach(item => {
