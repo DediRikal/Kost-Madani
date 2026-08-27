@@ -3,34 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kost Madani - Database Pembayaran</title>
+    <title>Kost Madani - Database Admin</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts & Font Awesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>body { font-family: 'Inter', sans-serif; }</style>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
-    <!-- Modal Form Login Password -->
-    <div id="modal-login" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl p-6 md:p-8 max-w-sm w-full shadow-2xl border border-slate-100 text-center">
-            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
-                <i class="fa-solid fa-lock"></i>
-            </div>
-            <h2 class="text-xl font-bold text-slate-900 mb-1">Akses Database</h2>
-            <p class="text-xs text-slate-500 mb-6">Masukkan PIN/Password pengelola untuk melanjutkan.</p>
-
-            <form onsubmit="verifikasiPassword(event)" class="space-y-4">
-                <div>
-                    <input type="password" id="input-pin" placeholder="Masukkan PIN (Default: 1234)" required class="w-full text-center tracking-widest text-lg px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
-                </div>
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-md transition active:scale-95">
-                    Masuk
-                </button>
-            </form>
-        </div>
-    </div>
-
+    <!-- HEADER & NAVIGATION BAR -->
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -45,132 +30,305 @@
         </div>
     </header>
 
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-            <div>
-                <h1 class="text-2xl font-extrabold text-slate-900">Database Transaksi & Status Kamar</h1>
-                <p class="text-slate-500 text-sm">Kelola status kelunasan penghuni untuk memperbarui status kamar di Beranda.</p>
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        
+        <!-- STEP 1: LOGIN FORM PASSWORD -->
+        <div id="section-login" class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-xl border border-slate-200 mt-8">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto text-2xl mb-3">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900">Akses Database Admin</h2>
+                <p class="text-slate-500 text-sm mt-1">Masukkan kata sandi untuk mengakses kelola data.</p>
             </div>
-            
-            <!-- Tombol Log Out / Keluar -->
-            <button onclick="logoutAdmin()" class="self-start md:self-auto px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold text-xs rounded-xl transition flex items-center gap-2 active:scale-95">
-                <i class="fa-solid fa-right-from-bracket"></i> Log Out (Kunci Kembali)
-            </button>
+            <form onsubmit="verifikasiPassword(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Password Admin</label>
+                    <input type="password" id="passwordInput" placeholder="Masukkan password..." required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
+                    <p id="errorMsg" class="text-rose-600 text-xs mt-2 hidden"><i class="fa-solid fa-circle-exclamation"></i> Password salah! Coba lagi.</p>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-500/30 transition active:scale-95">
+                    Masuk Database
+                </button>
+            </form>
         </div>
 
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm text-slate-600">
-                    <thead class="bg-slate-100 text-slate-700 font-semibold uppercase text-xs">
-                        <tr>
-                            <th class="px-6 py-4">Tanggal</th>
-                            <th class="px-6 py-4">Cabang</th>
-                            <th class="px-6 py-4">Nama Penghuni</th>
-                            <th class="px-6 py-4">Kamar</th>
-                            <th class="px-6 py-4">Periode</th>
-                            <th class="px-6 py-4">Status</th>
-                            <th class="px-6 py-4 text-center">Aksi Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabel-database" class="divide-y divide-slate-200">
-                        <!-- Data dimasukkan via JS -->
-                    </tbody>
-                </table>
+        <!-- STEP 2: PILIHAN CABANG KOST -->
+        <div id="section-cabang" class="hidden max-w-3xl mx-auto space-y-8 mt-6">
+            <div class="text-center">
+                <h2 class="text-3xl font-extrabold text-slate-900">Pilih Cabang Kost</h2>
+                <p class="text-slate-600 mt-2">Silakan pilih cabang untuk membuka kelola database transaksi & status kamar.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Tombol Madani 1 -->
+                <button onclick="bukaDatabaseCabang('Madani 1')" class="bg-white hover:border-blue-500 border-2 border-slate-200 p-6 rounded-2xl shadow-md transition transform hover:-translate-y-1 text-center group">
+                    <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mx-auto text-2xl mb-4 group-hover:bg-blue-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+                    <h3 class="font-bold text-xl text-slate-900">Madani 1</h3>
+                    <p class="text-xs text-slate-500 mt-1">9 Kamar</p>
+                </button>
+
+                <!-- Tombol Madani 2 -->
+                <button onclick="bukaDatabaseCabang('Madani 2')" class="bg-white hover:border-indigo-500 border-2 border-slate-200 p-6 rounded-2xl shadow-md transition transform hover:-translate-y-1 text-center group">
+                    <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto text-2xl mb-4 group-hover:bg-indigo-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-building-user"></i>
+                    </div>
+                    <h3 class="font-bold text-xl text-slate-900">Madani 2</h3>
+                    <p class="text-xs text-slate-500 mt-1">10 Kamar</p>
+                </button>
+
+                <!-- Tombol Madani Putri -->
+                <button onclick="bukaDatabaseCabang('Madani Putri')" class="bg-white hover:border-pink-500 border-2 border-slate-200 p-6 rounded-2xl shadow-md transition transform hover:-translate-y-1 text-center group">
+                    <div class="w-14 h-14 bg-pink-100 text-pink-600 rounded-2xl flex items-center justify-center mx-auto text-2xl mb-4 group-hover:bg-pink-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-hotel"></i>
+                    </div>
+                    <h3 class="font-bold text-xl text-slate-900">Madani Putri</h3>
+                    <p class="text-xs text-slate-500 mt-1">16 Kamar</p>
+                </button>
             </div>
         </div>
+
+        <!-- STEP 3: DATABASE TRANSAKSI & STATUS KAMAR -->
+        <div id="section-database" class="hidden space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Database Transaksi & Status Kamar</h1>
+                    <p class="text-slate-600 text-sm mt-1">Kelola status kelunasan penghuni untuk memperbarui status kamar di Beranda.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="kembaliKePilihCabang()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm transition">
+                        <i class="fa-solid fa-arrow-left"></i> Ganti Cabang
+                    </button>
+                    <button onclick="logoutAdmin()" class="bg-rose-50 text-rose-600 border border-rose-200 hover:bg-rose-100 font-bold px-4 py-2 rounded-xl text-sm transition">
+                        <i class="fa-solid fa-right-from-bracket"></i> Log Out
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Switcher Cabang Fast Navigation -->
+            <div class="flex gap-2 border-b border-slate-200 pb-2">
+                <button onclick="bukaDatabaseCabang('Madani 1')" id="tab-m1" class="px-4 py-2 font-bold text-sm rounded-lg transition">Madani 1</button>
+                <button onclick="bukaDatabaseCabang('Madani 2')" id="tab-m2" class="px-4 py-2 font-bold text-sm rounded-lg transition">Madani 2</button>
+                <button onclick="bukaDatabaseCabang('Madani Putri')" id="tab-mp" class="px-4 py-2 font-bold text-sm rounded-lg transition">Madani Putri</button>
+            </div>
+
+            <!-- Table Container -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 text-xs font-extrabold uppercase tracking-wider">
+                                <th class="py-4 px-6">Tanggal</th>
+                                <th class="py-4 px-6">Cabang</th>
+                                <th class="py-4 px-6">Nama Penghuni</th>
+                                <th class="py-4 px-6">Kamar</th>
+                                <th class="py-4 px-6">Periode</th>
+                                <th class="py-4 px-6">Status</th>
+                                <th class="py-4 px-6 text-center">Aksi Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabel-transaksi-body" class="divide-y divide-slate-100 text-sm">
+                            <!-- Data Transaksi dimasukkan via JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="empty-state" class="hidden p-8 text-center text-slate-500">
+                    <i class="fa-solid fa-folder-open text-4xl mb-2 text-slate-300"></i>
+                    <p>Belum ada data transaksi untuk cabang ini.</p>
+                </div>
+            </div>
+        </div>
+
     </main>
 
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-500 text-sm">
+            <p>© 2026 Kost Madani. Sistem Informasi Pembayaran Kost.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        const PIN_BENAR = "familyforever24"; // PIN Default Pengelola
+        const PASSWORD_ADMIN = "admin123"; // Ganti password di sini jika perlu
+        let cabangDipilih = 'Madani 1';
 
-        function cekAkses() {
-            const isLogin = sessionStorage.getItem('admin_login');
-            const modal = document.getElementById('modal-login');
-            
-            if (isLogin === 'true') {
-                modal.classList.add('hidden');
-                muatDatabase();
-            } else {
-                modal.classList.remove('hidden');
-            }
-        }
-
+        // 1. Fungsi Cek Login
         function verifikasiPassword(e) {
             e.preventDefault();
-            const pinInput = document.getElementById('input-pin').value;
+            const input = document.getElementById('passwordInput').value;
+            const errorMsg = document.getElementById('errorMsg');
 
-            if (pinInput === PIN_BENAR) {
-                sessionStorage.setItem('admin_login', 'true');
-                document.getElementById('modal-login').classList.add('hidden');
-                document.getElementById('input-pin').value = '';
-                muatDatabase();
+            if (input === PASSWORD_ADMIN) {
+                sessionStorage.setItem('admin_logged_in', 'true');
+                tampilkanTampilan();
             } else {
-                alert("PIN Salah! Akses ditolak.");
-                document.getElementById('input-pin').value = '';
+                errorMsg.classList.remove('hidden');
             }
         }
 
-        // Fungsi Log Out: Menghapus sesi login & menampilkan kembali modal password
+        // 2. Fungsi Pindah Halaman Berdasarkan Session Login
+        function tampilkanTampilan() {
+            const isLoggedIn = sessionStorage.getItem('admin_logged_in') === 'true';
+            const secLogin = document.getElementById('section-login');
+            const secCabang = document.getElementById('section-cabang');
+            const secDatabase = document.getElementById('section-database');
+
+            if (!isLoggedIn) {
+                secLogin.classList.remove('hidden');
+                secCabang.classList.add('hidden');
+                secDatabase.classList.add('hidden');
+            } else {
+                secLogin.classList.add('hidden');
+                const selectedCabang = sessionStorage.getItem('admin_cabang_aktif');
+                if (selectedCabang) {
+                    secCabang.classList.add('hidden');
+                    secDatabase.classList.remove('hidden');
+                    bukaDatabaseCabang(selectedCabang);
+                } else {
+                    secCabang.classList.remove('hidden');
+                    secDatabase.classList.add('hidden');
+                }
+            }
+        }
+
+        // 3. Fungsi Membuka Database Cabang Tertentu
+        function bukaDatabaseCabang(namaCabang) {
+            cabangDipilih = namaCabang;
+            sessionStorage.setItem('admin_cabang_aktif', namaCabang);
+
+            document.getElementById('section-cabang').classList.add('hidden');
+            document.getElementById('section-database').classList.remove('hidden');
+
+            // Highlighting Tab Navigation
+            ['Madani 1', 'Madani 2', 'Madani Putri'].forEach(c => {
+                const tabId = c === 'Madani 1' ? 'tab-m1' : c === 'Madani 2' ? 'tab-m2' : 'tab-mp';
+                const el = document.getElementById(tabId);
+                if (c === namaCabang) {
+                    el.className = "px-4 py-2 font-bold text-sm bg-blue-600 text-white rounded-lg shadow-sm";
+                } else {
+                    el.className = "px-4 py-2 font-bold text-sm text-slate-600 hover:bg-slate-100 rounded-lg";
+                }
+            });
+
+            renderTabelTransaksi();
+        }
+
+        function kembaliKePilihCabang() {
+            sessionStorage.removeItem('admin_cabang_aktif');
+            tampilkanTampilan();
+        }
+
         function logoutAdmin() {
-            sessionStorage.removeItem('admin_login');
-            const modal = document.getElementById('modal-login');
-            modal.classList.remove('hidden');
-            document.getElementById('input-pin').value = '';
+            sessionStorage.removeItem('admin_logged_in');
+            sessionStorage.removeItem('admin_cabang_aktif');
+            document.getElementById('passwordInput').value = '';
+            tampilkanTampilan();
         }
 
-        function muatDatabase() {
-            const listTransaksi = JSON.parse(localStorage.getItem('database_kost')) || [];
+        // 4. Render Data Transaksi & Tombol Status + Tombol Hapus
+        function renderTabelTransaksi() {
+            const transaksiList = JSON.parse(localStorage.getItem('transaksi_kost')) || [];
             const statusKamarMap = JSON.parse(localStorage.getItem('status_kamar_kost')) || {};
-            const tbody = document.getElementById('tabel-database');
+            const tbody = document.getElementById('tabel-transaksi-body');
+            const emptyState = document.getElementById('empty-state');
             
-            if (listTransaksi.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-slate-400">Belum ada data transaksi masuk.</td></tr>`;
+            tbody.innerHTML = '';
+
+            // Filter transaksi berdasarkan cabang yang dipilih
+            const filteredData = transaksiList.filter(item => item.cabang === cabangDipilih);
+
+            if (filteredData.length === 0) {
+                emptyState.classList.remove('hidden');
                 return;
-            }
-
-            tbody.innerHTML = listTransaksi.map((item) => {
-                const keyKamar = `${item.lokasi}-${item.kamar}`;
-                const isLunas = statusKamarMap[keyKamar] === 'Lunas';
-                
-                return `
-                    <tr class="hover:bg-slate-50">
-                        <td class="px-6 py-4 whitespace-nowrap">${item.tanggal}</td>
-                        <td class="px-6 py-4 whitespace-nowrap font-medium text-slate-900">${item.lokasi}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">${item.nama}</td>
-                        <td class="px-6 py-4 whitespace-nowrap font-bold text-blue-600">${item.kamar}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">${item.periode}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-3 py-1 text-xs font-semibold rounded-full ${isLunas ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">
-                                ${isLunas ? 'Lunas' : 'Menunggu Konfirmasi'}
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center">
-                            <button onclick="toggleStatus('${item.lokasi}', '${item.kamar}')" 
-                                class="px-3 py-1.5 rounded-lg text-xs font-bold transition ${isLunas ? 'bg-slate-200 text-slate-700 hover:bg-slate-300' : 'bg-emerald-600 text-white hover:bg-emerald-700'}">
-                                <i class="fa-solid ${isLunas ? 'fa-rotate-left' : 'fa-check'} mr-1"></i>
-                                ${isLunas ? 'Tandai Belum Lunas' : 'Set Lunas'}
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function toggleStatus(lokasi, kamar) {
-            const keyKamar = `${lokasi}-${kamar}`;
-            let statusKamarMap = JSON.parse(localStorage.getItem('status_kamar_kost')) || {};
-            
-            if (statusKamarMap[keyKamar] === 'Lunas') {
-                delete statusKamarMap[keyKamar];
             } else {
-                statusKamarMap[keyKamar] = 'Lunas';
+                emptyState.classList.add('hidden');
             }
 
-            localStorage.setItem('status_kamar_kost', JSON.stringify(statusKamarMap));
-            muatDatabase();
+            filteredData.forEach((item, index) => {
+                // Key unik kamar
+                const keyKamar = `${item.cabang}-${item.kamar.includes('Kamar') ? item.kamar : 'Kamar ' + item.kamar}`;
+                const isLunas = statusKamarMap[keyKamar] === 'Lunas' || item.status === 'Lunas';
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50/80 transition";
+
+                tr.innerHTML = `
+                    <td class="py-4 px-6 text-slate-600 font-medium">${item.tanggal || '-'}</td>
+                    <td class="py-4 px-6 font-bold text-slate-900">${item.cabang}</td>
+                    <td class="py-4 px-6 text-slate-800 font-semibold">${item.nama}</td>
+                    <td class="py-4 px-6 font-bold text-blue-600">${item.kamar}</td>
+                    <td class="py-4 px-6 text-slate-600">${item.bulan} ${item.tahun || ''}</td>
+                    <td class="py-4 px-6">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold ${
+                            isLunas 
+                                ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' 
+                                : 'bg-amber-100 text-amber-700 border border-amber-200'
+                        }">
+                            ${isLunas ? 'Lunas' : 'Menunggu Konfirmasi'}
+                        </span>
+                    </td>
+                    <td class="py-4 px-6 text-center">
+                        <div class="flex items-center justify-center gap-2">
+                            ${
+                                isLunas ? `
+                                    <button onclick="ubahStatus('${keyKamar}', 'Belum Lunas', '${item.id || index}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-200 text-slate-700 hover:bg-slate-300 transition flex items-center gap-1">
+                                        <i class="fa-solid fa-rotate-left"></i> Tandai Belum Lunas
+                                    </button>
+                                ` : `
+                                    <button onclick="ubahStatus('${keyKamar}', 'Lunas', '${item.id || index}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition flex items-center gap-1">
+                                        <i class="fa-solid fa-check"></i> Set Lunas
+                                    </button>
+                                `
+                            }
+                            <!-- Tombol Hapus Transaksi -->
+                            <button onclick="hapusTransaksi('${item.id || index}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-rose-600 text-white hover:bg-rose-700 shadow-sm transition flex items-center gap-1" title="Hapus Data">
+                                <i class="fa-solid fa-trash-can"></i> Hapus
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
         }
 
-        document.addEventListener('DOMContentLoaded', cekAkses);
+        // 5. Ubah Status Kelunasan
+        function ubahStatus(keyKamar, statusBaru, idTransaksi) {
+            let statusKamarMap = JSON.parse(localStorage.getItem('status_kamar_kost')) || {};
+            statusKamarMap[keyKamar] = statusBaru;
+            localStorage.setItem('status_kamar_kost', JSON.stringify(statusKamarMap));
+
+            let transaksiList = JSON.parse(localStorage.getItem('transaksi_kost')) || [];
+            transaksiList = transaksiList.map((item, idx) => {
+                if ((item.id && item.id === idTransaksi) || idx == idTransaksi) {
+                    return { ...item, status: statusBaru };
+                }
+                return item;
+            });
+            localStorage.setItem('transaksi_kost', JSON.stringify(transaksiList));
+
+            renderTabelTransaksi();
+        }
+
+        // 6. Hapus Data Transaksi
+        function hapusTransaksi(idTransaksi) {
+            if (confirm("Apakah Anda yakin ingin menghapus data transaksi ini?")) {
+                let transaksiList = JSON.parse(localStorage.getItem('transaksi_kost')) || [];
+                
+                // Filter hapus berdasarkan ID atau Index
+                transaksiList = transaksiList.filter((item, idx) => (item.id ? item.id !== idTransaksi : idx != idTransaksi));
+                
+                localStorage.setItem('transaksi_kost', JSON.stringify(transaksiList));
+                renderTabelTransaksi();
+            }
+        }
+
+        // Inisialisasi saat pertama kali dibuka
+        document.addEventListener('DOMContentLoaded', () => {
+            tampilkanTampilan();
+        });
     </script>
 </body>
 </html>
