@@ -11,6 +11,26 @@
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
+    <!-- Modal Form Login Password -->
+    <div id="modal-login" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-6 md:p-8 max-w-sm w-full shadow-2xl border border-slate-100 text-center">
+            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <h2 class="text-xl font-bold text-slate-900 mb-1">Akses Database</h2>
+            <p class="text-xs text-slate-500 mb-6">Masukkan PIN/Password pengelola untuk melanjutkan.</p>
+
+            <form onsubmit="verifikasiPassword(event)" class="space-y-4">
+                <div>
+                    <input type="password" id="input-pin" placeholder="Masukkan PIN (Default: 1234)" required class="w-full text-center tracking-widest text-lg px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-md transition active:scale-95">
+                    Buka Masuk
+                </button>
+            </form>
+        </div>
+    </div>
+
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -31,6 +51,9 @@
                 <h1 class="text-2xl font-extrabold text-slate-900">Database Transaksi & Status Kamar</h1>
                 <p class="text-slate-500 text-sm">Kelola status kelunasan penghuni untuk memperbarui status kamar di Beranda.</p>
             </div>
+            <button onclick="logoutAdmin()" class="self-start md:self-auto px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold text-xs rounded-xl transition">
+                <i class="fa-solid fa-right-from-bracket mr-1"></i> Keluar (Kunci Kembalian)
+            </button>
         </div>
 
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
@@ -48,7 +71,7 @@
                         </tr>
                     </thead>
                     <tbody id="tabel-database" class="divide-y divide-slate-200">
-                        <!-- Data dimasukkan via JavaScript -->
+                        <!-- Data dimasukkan via JS -->
                     </tbody>
                 </table>
             </div>
@@ -56,6 +79,39 @@
     </main>
 
     <script>
+        const PIN_BENAR = "1234"; // Ganti PIN default di sini
+
+        function cekAkses() {
+            const isLogin = sessionStorage.getItem('admin_login');
+            const modal = document.getElementById('modal-login');
+            
+            if (isLogin === 'true') {
+                modal.classList.add('hidden');
+                muatDatabase();
+            } else {
+                modal.classList.remove('hidden');
+            }
+        }
+
+        function verifikasiPassword(e) {
+            e.preventDefault();
+            const pinInput = document.getElementById('input-pin').value;
+
+            if (pinInput === PIN_BENAR) {
+                sessionStorage.setItem('admin_login', 'true');
+                document.getElementById('modal-login').classList.add('hidden');
+                muatDatabase();
+            } else {
+                alert("PIN Salah! Akses ditolak.");
+                document.getElementById('input-pin').value = '';
+            }
+        }
+
+        function logoutAdmin() {
+            sessionStorage.removeItem('admin_login');
+            location.reload();
+        }
+
         function muatDatabase() {
             const listTransaksi = JSON.parse(localStorage.getItem('database_kost')) || [];
             const statusKamarMap = JSON.parse(localStorage.getItem('status_kamar_kost')) || {};
@@ -108,7 +164,7 @@
             muatDatabase();
         }
 
-        document.addEventListener('DOMContentLoaded', muatDatabase);
+        document.addEventListener('DOMContentLoaded', cekAkses);
     </script>
 </body>
 </html>
